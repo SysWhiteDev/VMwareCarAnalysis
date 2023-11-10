@@ -21,12 +21,12 @@ login.post("/", (req, res) => {
       }
 
       if (!row) {
-        res.status(400).json({ message: "User doesn't exist" });
+        res.status(400).json({ message: "Incorrect username or password" });
         return;
       }
 
       if (!utils.bcrypt.compareSync(req.body.password, row.password)) {
-        res.status(400).json({ message: "Incorrect password" });
+        res.status(400).json({ message: "Incorrect username or password" });
         return;
       }
 

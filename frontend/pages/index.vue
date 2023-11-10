@@ -1,5 +1,16 @@
 <template>
     <div>
-        <p>Base of the hackathon2023 project</p>
+        <p class="title">Home page</p>
+        <LineGraph />
     </div>
 </template> 
+
+<style scoped>
+.title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-block: 20px;
+}
+
+
+</style>

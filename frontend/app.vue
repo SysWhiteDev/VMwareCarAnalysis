@@ -1,19 +1,28 @@
 <template>
   <div>
-    <NuxtLayout name="navbar" >
+    <NuxtLayout name="navbar" v-if="!isAuthRoute">
       <NuxtPage />
     </NuxtLayout>
+    <NuxtPage v-else/>
   </div>
 </template>
 
+<script>
+export default {
+  computed: {
+    isAuthRoute() {
+      return this.$route.path.startsWith('/auth/')
+    },
+  }
+}
+</script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 * {
   margin: 0;
   box-sizing: border-box;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
 }
-
 </style>
