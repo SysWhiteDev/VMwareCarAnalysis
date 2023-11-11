@@ -2,22 +2,43 @@
     <div class="container">
         <p class="title">{{ title }}</p>
         <div>
-            <GraphsChart class="graph" :labels="labels" :data="data" />
-            <GraphsPie class="graph" :labels="labels" :data="data" />
+            <GraphsChart class="graph" :labels="labels" :data="data" v-if="!this.data.length == 0" />
+            <GraphsPie class="graph" :labels="labels" :data="data" v-if="!this.data.length == 0" />
 
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
-            title: "Vehicle types",
-            labels: ["SUV", "Sedan"],
-            data: [12, 19, 3],
+            title: "Vehicle Types",
+            data: [],
+            labels: [],
+        };
+    },
+    mounted() {
+        this.getData();
+    },
+    methods: {
+        async getData() {
+            const res = await axios.get("http://localhost:8081/");
+            const dataMap = new Map();
+            for (const element of res.data) {
+                if (!this.labels.includes(element.type)) {
+                    this.labels.push(element.type);
+                }
+                dataMap.set(element.type, (dataMap.get(element.type) || 0) + 1);
+            }
+            
+            this.data = Array.from(dataMap.values());
+            console.log(Array.from(dataMap.values()));
         }
+
     }
+
 }
 </script>
 

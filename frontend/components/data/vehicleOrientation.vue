@@ -2,25 +2,44 @@
     <div class="container">
         <p class="title">{{ title }}</p>
         <div>
-            <GraphsChart class="graph" :labels="labels" :data="data" />
-            <GraphsPie class="graph" :labels="labels" :data="data" />
+            <GraphsChart class="graph" :labels="labels" :data="data" v-if="!data.length == 0"/>
+            <GraphsPie class="graph" :labels="labels" :data="data" v-if="!data.length == 0"/>
 
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
-            title: "Vehicle orientations in parking",
-            labels: ["Rear", "Forward"],
-            data: [5, 3],
+            title: "Vehicle Orientation",
+            data: [],
+            labels: [],
+        };
+    },
+    mounted() {
+        this.getData();
+    },
+    methods: {
+        async getData() {
+            const res = await axios.get("http://localhost:8081/");
+            const dataMap = new Map();
+            console.log(res.data)
+            for (const element of res.data) {
+                if (!this.labels.includes(element.orientation)) {
+                    this.labels.push(element.orientation);
+                }
+                dataMap.set(element.orientation, (dataMap.get(element.orientation) || 0) + 1);
+            }
+
+            this.data = Array.from(dataMap.values());
+            console.log(Array.from(dataMap.values()));
         }
     }
 }
 </script>
-
 <style scoped>
 .title {
     font-size: 24px;

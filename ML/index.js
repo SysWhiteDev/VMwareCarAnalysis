@@ -66,9 +66,11 @@ app.post("/process", (req, res) => {
 app.get("/", async (req, res) => {
   db.all("SELECT * FROM cars", (err, row) => {
     if (err) {
-      res.status(500).json({ 'message': "Internal Server Error"})
+      console.log(err);
+      res.status(500).json({ 'message': "Internal Servesr Error"});
+      return;
     }
-    res.status(500).json(row);
+    res.status(200).json(row);
   })
 });
 

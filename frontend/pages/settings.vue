@@ -27,18 +27,34 @@
                 </NuxtLink>
             </div>
         </div>
+        <p class="title">ML Model</p>
+        <div class="chargers-wrapper">
+            <button @click="updateModel()" class="update-button" :class="{ success: updateButtonSuccess }"><i
+                    class="fa-solid fa-arrows-rotate" v-if="!updateButtonSuccess"></i>
+                <i class="fa-solid fa-check" v-else></i>{{ updateButtonText
+                }}</button>
+            <button @click="getCurrentModel()" class="update-button" :class="{ success: downloadButtonSuccess }"><i
+                    class="fa-solid fa-download" v-if="!downloadButtonSuccess"></i><i class="fa-solid fa-check" v-else></i>{{ this.downloadButtonText
+                    }}</button>
+        </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
 import { useTokenState } from '../stores/authStore.js';
+import { useMlStore } from '~/stores/mlDataStore';
 export default {
     data() {
         return {
             chargers: [
             ],
             token: useTokenState(),
+            ml: useMlStore(),
+            updateButtonText: 'Refresh model with newer data',
+            updateButtonSuccess: false,
+            downloadButtonText: 'Download current model',
+            downloadButtonSuccess: false,
         }
     },
     mounted() {
@@ -69,6 +85,40 @@ export default {
             }).catch((err) => {
                 console.log(err);
             });
+        },
+        async updateModel() {
+            await axios.post("http://localhost:8081/process", {
+                headers: {
+                    'Authorization': this.token.token,
+                },
+            }).then((res) => {
+                console.log(res);
+                this.updateButtonSuccess = true;
+                this.updateButtonText = 'Model updated';
+                setTimeout(() => {
+                    this.updateButtonSuccess = false;
+                    this.updateButtonText = 'Refresh model with newer data';
+                }, 2000);
+            }).catch((err) => {
+                console.log(err);
+            })
+        },
+        async getCurrentModel() {
+            await axios.get("http://localhost:8081/", {
+                headers: {
+                    'Authorization': this.token.token,
+                },
+            }).then((res) => {
+                this.ml.data = res.data
+                this.downloadButtonSuccess = true;
+                this.downloadButtonText = 'Model downloaded';
+                setTimeout(() => {
+                    this.updateButtonSuccess = false;
+                    this.updateButtonText = 'Refresh model with newer data';
+                }, 2000);
+            }).catch((err) => {
+                console.log(err);
+            })
         }
     },
 }
@@ -157,7 +207,34 @@ export default {
     align-items: center;
     cursor: pointer;
 }
+
 .delete-button:hover {
     background: rgba(224, 224, 224, 0.663);
+}
+
+/* update-button */
+.update-button {
+    margin: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 1.2rem;
+    background: #1e90ff;
+    color: white;
+    cursor: pointer;
+    margin-right: 0;
+}
+
+.update-button:hover {
+    background: rgb(23, 120, 216);
+}
+
+.update-button>i {
+    margin-right: 10px;
+}
+
+.update-button.success {
+    background: #3ddb1a;
 }
 </style>

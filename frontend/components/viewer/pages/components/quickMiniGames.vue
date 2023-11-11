@@ -6,14 +6,14 @@
                 <img src="https://cdn.icon-icons.com/icons2/390/PNG/512/tic-tac-toe_39453.png" alt="">
                 <p>TicTacToe</p>
             </NuxtLink>
-            <NuxtLink to="/v/games/snake" class="game">
+            <!-- <NuxtLink to="/v/games/snake" class="game">
                 <img src="https://static-00.iconduck.com/assets.00/connect-four-icon-512x449-cuxhc8ok.png" alt="">
                 <p>Connect 4</p>
             </NuxtLink>
             <NuxtLink to="/v/games/snake" class="game">
                 <img src="https://upload.wikimedia.org/wikipedia/en/0/0a/Flappy_Bird_icon.png" alt="">
                 <p>Flappy bird</p>
-            </NuxtLink>
+            </NuxtLink> -->
         </div>
     </div>
 </template>

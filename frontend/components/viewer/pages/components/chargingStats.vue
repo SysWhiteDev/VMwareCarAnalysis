@@ -1,15 +1,15 @@
 <template>
     <div class="container">
         <div class="data">
-            <p>0h 1m</p>
+            <p>0h 33m</p>
             <p>Time left</p>
         </div>
         <div class="data">
-            <p  style="color: rgb(92, 196, 202);">0w</p>
+            <p  style="color: rgb(92, 196, 202);">94w</p>
             <p>Current wattage</p>
         </div>
         <div class="data">
-            <p  style="color: rgb(192, 26, 70);">0%</p>
+            <p  style="color: rgb(192, 26, 70);">67%</p>
             <p>Charged</p>
         </div>
     </div>

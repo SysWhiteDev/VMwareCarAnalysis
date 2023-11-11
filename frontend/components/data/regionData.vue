@@ -1,22 +1,61 @@
 <template>
     <div class="container">
-        <p class="title">{{title}}</p>
+        <p class="title">{{ title }}</p>
         <div>
-            <GraphsPie class="graph" :labels="labels" :data="data" />
-            <GraphsChart class="graph" :labels="labels" :data="data" />
+            <GraphsPie class="graph" :labels="labels" :data="data" v-if="!data.length == 0" />
+            <GraphsChart class="graph" :labels="labels" :data="data" v-if="!data.length == 0" />
         </div>
     </div>
 </template>
 
+
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
-            title: "Chargers per region",
-            labels: ["Italy", "Germany", "Sweden"],
-            data: [12, 19, 3],
+            title: "Vehicle's Country of registration",
+            data: [],
+            labels: [],
+            countryList: {
+                it: "Italy",
+                de: "Germany",
+                fr: "France",
+                es: "Spain",
+                gb: "United Kingdom",
+                pl: "Poland",
+                nl: "Netherlands",
+                be: "Belgium",
+                ro: "Romania",
+                se: "Sweden",
+                cz: "Czech Republic",
+                hu: "Hungary",
+                pt: "Portugal",
+                at: "Austria",
+            }
+        };
+    },
+    mounted() {
+        this.getData();
+    },
+    methods: {
+        async getData() {
+            const res = await axios.get("http://localhost:8081/");
+            const dataMap = new Map();
+
+            for (const element of res.data) {
+                if (!this.labels.includes(this.countryList[element.region])) {
+                    this.labels.push(this.countryList[element.region]);
+                }
+                dataMap.set(element.region, (dataMap.get(element.region) || 0) + 1);
+            }
+            
+            this.data = Array.from(dataMap.values());
+            console.log(Array.from(dataMap.values()));
         }
+
     }
+
 }
 </script>
 
@@ -46,13 +85,14 @@ export default {
 
 }
 
-.container > div {
+.container>div {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
     flex: 1 !important;
 }
+
 .container>div>* {
     /* width: 440px !important; */
     height: clamp(220px, 24vw, 440px) !important;

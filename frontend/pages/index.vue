@@ -32,7 +32,7 @@
     align-items: center;
 }
 
-.line:last-child {
+.line{
     margin-bottom: 20px;
 }
 .line > * {
