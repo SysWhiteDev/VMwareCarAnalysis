@@ -1,55 +1,44 @@
 <template>
-    <Bar class="chart" :options="chartOptions" :data="chartData" :height="height" :width="width" />
+    <Pie class="chart" :options="chartOptions" :data="chartData" :width="width" :height="height" />
 </template>
-  
+ 
 <script>
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
+    Chart as ChartJS,
+    ArcElement,
+    Title,
+    Tooltip,
+    Legend
 } from 'chart.js'
-import { Bar } from 'vue-chartjs'
+import { Pie } from 'vue-chartjs'
 
 ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
+    ArcElement,
+    Title,
+    Tooltip,
+    Legend
 )
+
 export default {
-    name: 'LineChart',
+    name: 'PieChart',
     props: {
         name: String,
         labels: Array,
         data: Array,
     },
-    components: { Bar },
+    components: { Pie },
     data() {
         return {
             chartData: {
                 labels: this.labels,
                 datasets: [{
                     data: this.data,
-                    backgroundColor: '#5cc4ca32',
-                    borderColor: '#5cc4ca',
+                    backgroundColor: this.data.map(() => '#' + Math.floor(Math.random() * 16777215).toString(16)),
                     borderWidth: 1
                 }]
             },
             chartOptions: {
                 responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
                 plugins: {
                     title: {
                         display: true,
@@ -60,7 +49,8 @@ export default {
                         }
                     },
                     legend: {
-                        display: false
+                        display: true,
+                        position: 'right'
                     }
                 }
             }
@@ -68,3 +58,4 @@ export default {
     }
 }
 </script>
+ 

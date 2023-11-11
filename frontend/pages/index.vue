@@ -3,8 +3,16 @@
         <p class="title">General data</p>
         <DataTotalData />
         <div class="line">
-            <DataChargeWeek name="test"/>
-            <DataChargeWeek name="test"/>
+            <DataRegionData />
+        </div>
+        <div class="line">
+            <DataVehicleType />
+        </div>
+        <div class="line">
+            <DataVehicleColors />
+        </div>
+        <div class="line">
+            <DataVehicleOrientation />
         </div>
     </div>
 </template> 
@@ -24,12 +32,11 @@
     align-items: center;
 }
 
+.line:last-child {
+    margin-bottom: 20px;
+}
 .line > * {
     flex: 0.5;
     margin-top: 0;
-}
-
-.line > :first-child {
-    margin-right: 0px;
 }
 </style>
