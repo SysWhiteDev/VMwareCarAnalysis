@@ -15,7 +15,8 @@
     "cors": "^2.8.5",
     "express.js": "^1.0.0",
     "fluent-ffmpeg": "^2.1.2",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

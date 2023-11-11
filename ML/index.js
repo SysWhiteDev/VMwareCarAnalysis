@@ -4,7 +4,9 @@ import axios from "axios";
 import FormData from "form-data";
 import fs, { readFileSync, readdirSync } from "fs";
 import { fileURLToPath } from "url";
+import { db } from "./db.js";
 import path, { dirname } from "path";
+import transform from "./test.js";
 
 const app = Express();
 app.use(Express.json());
@@ -12,7 +14,8 @@ app.use(cors());
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-app.get("/", async (req, res) => {
+app.post("/process", (req, res) => {
+  transform();
   const directoryPath = path.join(__dirname, "images");
   const filenames = readdirSync(directoryPath);
   let completeData = [];
@@ -33,20 +36,40 @@ app.get("/", async (req, res) => {
           },
         })
         .then((response) => {
-            console.log(response.data.results);
-          completeData.push(response.data.results);
-          let jsonCompleteData = JSON.stringify(completeData);
-          console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-          console.log(JSON.parse(jsonCompleteData));
-          app.get("/data", (req, res) => {
-            res.send(jsonCompleteData);
+           response.data.results.forEach((result) => {
+            // check if car is already in our database
+            db.get("SELECT plate FROM cars WHERE plate = ?", [result.plate], (err, row) => {
+              if (err) {
+                res.status(500).json({ message: 'Internal Server Error.'})
+              }
+              if (row) {
+                console.log("already in db");
+                return
+              }
+              db.run("INSERT INTO cars (plate, region, type, acc) VALUES (?, ?, ?, ?)", [result.plate, result.region.code, result.vehicle.type, result.dscore], (err) => {
+                if (err) {
+                  res.status(500).json({ message: 'Internal Server Error.'})
+                }
+              })
+            })           
            });
         })
         .catch((error) => {
           console.log(error);
         });
-    }, 3000 * i);
+    }, 4000 * i);
   }
+  console.log("DONE")
+  res.status(200).json({ message: "Elaborating images..."})
+})
+
+app.get("/", async (req, res) => {
+  db.all("SELECT * FROM cars", (err, row) => {
+    if (err) {
+      res.status(500).json({ 'message': "Internal Server Error"})
+    }
+    res.status(500).json(row);
+  })
 });
 
 app.listen(8081, () => {

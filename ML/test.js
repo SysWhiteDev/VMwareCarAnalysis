@@ -15,7 +15,8 @@ function getVideoDuration(videoPath) {
 
 const videoPath = 'test.mp4';
 
-getVideoDuration(videoPath)
+const transform = () => {
+  getVideoDuration(videoPath)
   .then(duration => {
     console.log(`Video duration: ${duration} seconds`);
 
@@ -47,3 +48,6 @@ getVideoDuration(videoPath)
   .catch(error => {
     console.error('Error:', error);
   });
+}
+
+  export default transform;
