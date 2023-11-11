@@ -30,7 +30,7 @@ export default {
     },
     methods: {
         async getChargers() {
-            await axios.get('http://localhost:8080/v/getList', {
+            await axios.get('http://172.20.10.11:8080/v/getList', {
                 headers: {
                     'Authorization': this.token.token,
                 },
