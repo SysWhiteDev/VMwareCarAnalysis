@@ -15,12 +15,15 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 app.get("/", async (req, res) => {
   const directoryPath = path.join(__dirname, "images");
   const filenames = readdirSync(directoryPath);
-
+  let completeData = [];
   for (let i = 0; i < filenames.length; i++) {
     setTimeout(async () => {
-      const filedata = fs.createReadStream(path.join(directoryPath, filenames[i]));
+      const filedata = fs.createReadStream(
+        path.join(directoryPath, filenames[i])
+      );
       let body = new FormData();
       body.append("upload", filedata);
+    //   body.append("mmc", "true");
       body.append("regions", "it");
       await axios
         .post("https://api.platerecognizer.com/v1/plate-reader/", body, {
@@ -30,7 +33,8 @@ app.get("/", async (req, res) => {
           },
         })
         .then((response) => {
-          console.log(response.data.box);
+            console.log(response.data.results);
+          completeData.push(response.data.results);
         })
         .catch((error) => {
           console.log(error);
