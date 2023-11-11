@@ -35,6 +35,12 @@ app.get("/", async (req, res) => {
         .then((response) => {
             console.log(response.data.results);
           completeData.push(response.data.results);
+          let jsonCompleteData = JSON.stringify(completeData);
+          console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+          console.log(JSON.parse(jsonCompleteData));
+          app.get("/data", (req, res) => {
+            res.send(jsonCompleteData);
+           });
         })
         .catch((error) => {
           console.log(error);
