@@ -12,6 +12,10 @@
             <p style="color: #5cc4ca;">0W</p>
             <p>Total energy used</p>
         </div>
+        <div class="data">
+            <p style="color: #ee82ee;">0.00%</p>
+            <p>Current model accuracy</p>
+        </div>
     </div>
 </template>
 
@@ -30,7 +34,7 @@ export default {
     },
     methods: {
         async getChargers() {
-            await axios.get('http://172.20.10.11:8080/v/getList', {
+            await axios.get('http://localhost:8080/v/getList', {
                 headers: {
                     'Authorization': this.token.token,
                 },
