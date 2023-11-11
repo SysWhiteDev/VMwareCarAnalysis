@@ -70,11 +70,11 @@ var jsonData = [];
 
 query("./assets/1.png")
   .then((response) => {
-    console.log(JSON.stringify(response));
+    //console.log(JSON.stringify(response));
     jsonData.push(response);
   })
   .catch((error) => {
-    console.error('Error:', error);
+    //console.error('Error:', error);
   })
   .finally(() => {
 
@@ -82,6 +82,6 @@ query("./assets/1.png")
 
     const newData = jsonData.map(frame => frame.map(({ score, label }) => ({ score, label })));
 
-    console.log(newData['']);
+    console.log(newData);
 
   });
