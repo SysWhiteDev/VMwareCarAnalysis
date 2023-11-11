@@ -1,9 +1,9 @@
 import utils from "../utils/utils.js";
 
-const authMiddleware = (req, res, next) => {
+const viewersAuthMiddleware = (req, res, next) => {
     // check in database the token present in headers
     utils.db.get(
-        "SELECT * FROM tokens WHERE token = ?",
+        "SELECT * FROM viewers_tokens WHERE token = ?",
         [req.headers.authorization],
         (err, row) => {
             if (err) {
@@ -12,7 +12,6 @@ const authMiddleware = (req, res, next) => {
             }
 
             // if token doesn't exist
-            // console.log(req.headers.authorization)
             if (!row) {
                 res.status(401).json({ message: "Unauthorized" });
                 return;
@@ -30,4 +29,4 @@ const authMiddleware = (req, res, next) => {
     );
 }
 
-export default authMiddleware;
+export default viewersAuthMiddleware;

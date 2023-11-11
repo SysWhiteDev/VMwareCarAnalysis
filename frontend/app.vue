@@ -11,7 +11,7 @@
 export default {
   computed: {
     isAuthRoute() {
-      return this.$route.path.startsWith('/auth/')
+      return this.$route.path.startsWith('/auth/') || this.$route.path.startsWith('/v/');
     },
   }
 }

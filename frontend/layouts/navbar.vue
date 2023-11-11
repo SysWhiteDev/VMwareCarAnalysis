@@ -2,12 +2,15 @@
     <div>
         <div class="nav">
             <div>
-                <NuxtLink>
+                <NuxtLink to="/">
                     <i class="fa-solid fa-house"></i>
                 </NuxtLink>
             </div>
             <div>
-                <p>s</p>
+
+                <NuxtLink to="/settings">
+                    <i class="fa-solid fa-gear"></i>
+                </NuxtLink>
             </div>
         </div>
         <div class="page">
@@ -18,7 +21,7 @@
 
 <style scoped>
 .page {
-    margin-left: 100px;
+    margin-left: 80px;
 }
 
 /* navbar */
@@ -34,7 +37,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 15px 0px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 
@@ -48,6 +51,8 @@ a {
     border-radius: 15px;
     background-color: #fff;
     font-size: 1.15rem;
+    color: black;
+    text-decoration: none;
 }
 
 a:hover {
