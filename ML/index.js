@@ -1,17 +1,29 @@
 import axios from 'axios';
-import { readFileSync } from 'fs';
+import { readdirSync } from 'fs';
+import path from 'path';
+
+console.log(readdirSync(images))
 
 async function query(filename) {
-   const data = readFileSync(filename);
-   const response = await axios({
-       url: "https://api-inference.huggingface.co/models/hustvl/yolos-base",
-       method: "POST",
-       headers: { Authorization: "Bearer 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" },
-       data: data,
-   });
-   return response.data;
+  let data = readFileSync(filename);
+  let response = await axios({
+      url: "https://api-inference.huggingface.co/models/hustvl/yolos-base",
+      method: "POST",
+      headers: { Authorization: "Bearer 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" },
+      data: data,
+  });
+  return response.data;
 }
 
-query("./assets/1.png").then((response) => {
-   console.log(JSON.stringify(response));
-});
+function processDirectory(directory) {
+ let filenames = readdirSync(directory);
+ let results = filenames.map(filename => query(path.join(directory, filename)));
+
+ Promise.all(results).then(responses => {
+   let sum = responses.reduce((a, b) => a + b, 0);
+   let average = sum / responses.length;
+   console.log(`The average result is ${average}`);
+ });
+}
+
+processDirectory('./assets');

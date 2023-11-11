@@ -19,14 +19,13 @@ getVideoDuration(videoPath)
   .then(duration => {
     console.log(`Video duration: ${duration} seconds`);
 
-    // Generate dynamic timemarks based on the video duration
-    const numberOfScreenshots = duration; // Adjust as needed
+    const intervalInSeconds = 0.5;
     const timemarks = [];
 
-    for (let i = 1; i <= numberOfScreenshots; i++) {
-      const timemark = (i / (numberOfScreenshots + 1)) * duration;
-      timemarks.push(timemark);
+    for (let i = 0; i < duration; i += intervalInSeconds) {
+      timemarks.push(i);
     }
+    console.log(timemarks);
 
     ffmpeg()
       .input(videoPath)
