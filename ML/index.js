@@ -1,87 +1,48 @@
-/*import axios from 'axios';
-import { readdirSync, readFileSync } from 'fs';
-import path from 'path';
+import Express from "express";
+import cors from "cors";
+import axios from "axios";
+import FormData from "form-data";
+import fs, { readFileSync, readdirSync } from "fs";
+import { fileURLToPath } from "url";
+import path, { dirname } from "path";
 
-//for (let i = 0; i < images.length; i++) {
-//  console.log(readdirSync('images')[i]);
-//}
-//console.log('fhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
+const app = Express();
+app.use(Express.json());
+app.use(cors());
 
-async function query(filename) {
-  let data = readFileSync(filename);
-  let response = await axios({
-      url: "https://api-inference.huggingface.co/models/hustvl/yolos-base",
-      method: "POST",
-      headers: { Authorization: "Bearer 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" },
-      data: data,
-  });
-  return response.data;
-}
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-  function processDirectory(directory) {
+app.get("/", async (req, res) => {
+  const directoryPath = path.join(__dirname, "images");
+  const filenames = readdirSync(directoryPath);
+  let completeData = [];
+  for (let i = 0; i < filenames.length; i++) {
+    setTimeout(async () => {
+      const filedata = fs.createReadStream(
+        path.join(directoryPath, filenames[i])
+      );
+      let body = new FormData();
+      body.append("upload", filedata);
+    //   body.append("mmc", "true");
+      body.append("regions", "it");
+      await axios
+        .post("https://api.platerecognizer.com/v1/plate-reader/", body, {
+          headers: {
+            Authorization: "Token 9f99ec0695d8a093ccf8d4bcb314fae8028be130",
+            ...body.getHeaders(),
+          },
+        })
+        .then((response) => {
+            console.log(response.data.results);
+          completeData.push(response.data.results);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }, 3000 * i);
+  }
+});
 
-    console.log(directory);
-    console.log('fhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
-
-    let filenames = readdirSync(directory);
-
-    console.log(filenames);
-    
-    let results = filenames.map(filename => query(path.join(directory, filename)));
-
-    console.log(results);
-
-    Promise.all(results).then(responses => {
-      let sum = responses.reduce((a, b) => a + b, 0);
-      let average = sum / responses.length;
-      console.log(`The average result is ${average}`);
-    });
-
-   }
-
-processDirectory('./images');
-
-*/
-
-
-
-
-import axios from 'axios';
-import { readFileSync } from 'fs';
-
-function query(filename) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const data = readFileSync(filename);
-      const response = await axios({
-        url: "https://api-inference.huggingface.co/models/hustvl/yolos-base",
-        method: "POST",
-        headers: { Authorization: "Bearer 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" },
-        data: data,
-      });
-      resolve(response.data);
-    } catch (error) {
-      reject(error);
-    }
-  });
-}
-
-var jsonData = [];
-
-query("./assets/1.png")
-  .then((response) => {
-    //console.log(JSON.stringify(response));
-    jsonData.push(response);
-  })
-  .catch((error) => {
-    //console.error('Error:', error);
-  })
-  .finally(() => {
-
-    //console.log(jsonData);
-
-    const newData = jsonData.map(frame => frame.map(({ score, label }) => ({ score, label })));
-
-    console.log(newData);
-
-  });
+app.listen(8081, () => {
+  console.log("Server running on port 8081");
+});

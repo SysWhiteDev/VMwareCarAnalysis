@@ -41,6 +41,7 @@ getVideoDuration(videoPath)
       .takeScreenshots({
         filename: 'test%d.png',
         timemarks: timemarks,
+        size: '1280x720',
       }, 'images');
   })
   .catch(error => {
