@@ -33,8 +33,9 @@
                     class="fa-solid fa-arrows-rotate" v-if="!updateButtonSuccess"></i>
                 <i class="fa-solid fa-check" v-else></i>{{ updateButtonText
                 }}</button>
-            <button @click="getCurrentModel()" class="update-button" :class="{ success: downloadButtonSuccess }"><i
-                    class="fa-solid fa-download" v-if="!downloadButtonSuccess"></i><i class="fa-solid fa-check" v-else></i>{{ this.downloadButtonText
+            <button @click="deleteCurrentModel()" class="update-button" :class="{ success: deleteButtonSuccess }"><i
+                    class="fa-solid fa-trash-can" v-if="!deleteButtonSuccess"></i><i class="fa-solid fa-check"
+                    v-else></i>{{ this.deleteButtonText
                     }}</button>
         </div>
     </div>
@@ -53,8 +54,8 @@ export default {
             ml: useMlStore(),
             updateButtonText: 'Refresh model with newer data',
             updateButtonSuccess: false,
-            downloadButtonText: 'Download current model',
-            downloadButtonSuccess: false,
+            deleteButtonText: 'Clear the database',
+            deleteButtonSuccess: false,
         }
     },
     mounted() {
@@ -103,19 +104,18 @@ export default {
                 console.log(err);
             })
         },
-        async getCurrentModel() {
-            await axios.get("http://localhost:8081/", {
+        async deleteCurrentModel() {
+            await axios.post("http://localhost:8081/d", {
                 headers: {
                     'Authorization': this.token.token,
                 },
             }).then((res) => {
-                this.ml.data = res.data
-                this.downloadButtonSuccess = true;
-                this.downloadButtonText = 'Model downloaded';
+                this.deleteButtonSuccess = true;
+                this.deleteButtonText = 'Database cleared';
                 setTimeout(() => {
-                    this.updateButtonSuccess = false;
-                    this.updateButtonText = 'Refresh model with newer data';
-                }, 2000);
+                    this.deleteButtonSuccess = false;
+                    this.deleteButtonText = 'Clear the database';
+                }, 2000)
             }).catch((err) => {
                 console.log(err);
             })

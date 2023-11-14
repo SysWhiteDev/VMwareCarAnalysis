@@ -21,5 +21,5 @@ app.use("/v", viewersAuthRoutes);
 
 
 app.listen(process.env.PORT, () => {
-    console.log(`API LISTENING ON PORT: ${process.env.PORT}`)
+    console.log(`[SERVER] running on port ${process.env.PORT}`)
 });
