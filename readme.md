@@ -27,6 +27,6 @@ Everything is dockerised, to start the app just install docker and run
 ...
 
 ## Authors
-- [SysWhiteDev](https://github.com/syswhitedev) | Frontend/Backend
+- [SysWhiteDev](https://github.com/syswhitedev) | Frontend/Backend/Machine Learning
 - [resonanceee](https://github.com/resonanceee) | Machine Learning
 - [Hamza](https://github.com/Hamza5955) | Machine Learning
