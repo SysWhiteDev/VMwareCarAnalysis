@@ -1,4 +1,18 @@
-# Logs
+
+# dependencies
+/node_modules
+
+# production build
+/build
+
+# dotenv environment variables file
+.env
+
+# IDE files
+.vscode/
+.idea/
+
+# logs
 logs
 *.log
 
