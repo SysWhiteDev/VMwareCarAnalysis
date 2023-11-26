@@ -6,7 +6,7 @@
             <input type="file" accept="video/*" class="action" ref="video" />
             <div class="action" @click="handleFileUpload($refs.video)">
                 <i class="fa-solid fa-upload"></i>
-                <p>Upload sample video to the server</p>
+                <p>{{ uploadButtonText }}</p>
             </div>
         </div>
     </div>
@@ -24,6 +24,7 @@ export default {
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             debug: 0,
             video: null,
+            uploadButtonText: "Upload sample video to the server",
         };
     },
     mounted() {
@@ -33,10 +34,10 @@ export default {
     },
     methods: {
         handleFileUpload(video) {
+            this.uploadButtonText = "Processing...";
             const videoFile = video.files[0];
             const formData = new FormData();
             formData.append('video', videoFile);
-
             axios.post(`http://${window.location.hostname}:8081/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -45,11 +46,19 @@ export default {
                 .then(response => {
                     // handle success
                     console.log(response.data);
+                    this.uploadButtonText = "Uploaded with success, processing should start shortly";
                     this.callModelReload();
+                    setTimeout(() => {
+                        this.uploadButtonText = "Upload sample video to the server";
+                    }, 5000);
                 })
                 .catch(error => {
                     // handle error
                     console.error(error);
+                    this.uploadButtonText = "Something went wrong";
+                    setTimeout(() => {
+                        this.uploadButtonText = "Upload sample video to the server";
+                    }, 5000);
                 });
         },
         callModelReload() {

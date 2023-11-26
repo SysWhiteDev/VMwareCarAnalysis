@@ -6,17 +6,19 @@
                 <p>Your auto doesn't seem electric, please switch parking space.</p>
             </div>
             <div class="activity playgroud"
-                v-else-if="((8 >= time.hours <= 12 || 15 >= time.hours <= 19) && temp >= 18) && kids && weather == 'sunny'">
+                v-else-if="(time.hours >= 8 && time.hours <= 12 || time.hours >= 15 && time.hours <= 19) && temp >= 18 && kids && weather == 'sunny'">
                 <p>What a nice day to go to the playground with the family.</p>
             </div>
-            <div class="activity restaurant" v-else-if="(8 >= time.hours <= 12 || 15>= time.hours <= 19)">
+            <div class="activity restaurant"
+                v-else-if="(time.hours >= 8 && time.hours <= 12 || time.hours >= 15 && time.hours <= 19)">
                 <p>Would you like a nice steak at NOISteria?</p>
             </div>
             <div class="activity coffee" v-else>
                 <p>What a great time to get some coffee at the 24h coffee machine</p>
             </div>
         </div>
-        <button @click="this.randomProps()">Randomize</button>
+        <button @click="this.randomProps()" class="random-button">Randomize</button>
+        <p>temp: {{ temp }}, weather: {{ weather }}, time: {{ time.hours }}:00, kids: {{ kids }}, ev: {{ ev }}</p>
     </div>
 </template>
 
@@ -26,13 +28,17 @@ export default {
         return {
             temp: 18,
             weather: 'sunny',
+            possibleWeather: ['sunny', 'cloudy', 'rainy', 'windy', 'snowy'],
             time: {},
-            kids: false,
+            kids: true,
             ev: true,
         }
     },
     mounted() {
         this.getTime();
+        setInterval(() => {
+            this.randomProps();
+        }, 15000);
     },
     methods: {
         getTime() {
@@ -44,11 +50,11 @@ export default {
             };
             this.time = timeObject;
         },
-        randomProps(){
+        randomProps() {
             this.ev = Boolean(Math.round(Math.random()));
             this.kids = Boolean(Math.round(Math.random()));
             this.time.hours = Math.floor(Math.random() * 25);
-            this.weather = ['sunny', 'cloudy','rainy', 'windy', 'snowy'].sample();
+            this.weather = this.possibleWeather[Math.floor(Math.random() * this.possibleWeather.length)];
             this.temp = Math.floor(Math.random() * 39);
         }
     }
@@ -136,4 +142,17 @@ export default {
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.752);
 }
-</style>
+
+.random-button {
+    padding: 10px;
+    border-radius: 10px;
+    margin: 3px 0px;
+    background: #ebebeb;
+    border: none;
+    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.075);  
+}
+</style> 
