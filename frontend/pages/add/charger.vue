@@ -29,7 +29,7 @@ export default {
     methods: {
         async confirmCode() {
             if (this.code.length === 6) {
-                const response = await axios.post('http://localhost:8080/v/claim',
+                const response = await axios.post(`http://${window.location.hostname}:8080/v/claim`,
                     {
                         'viewerid': this.code,
                     },

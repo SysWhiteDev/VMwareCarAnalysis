@@ -37,7 +37,7 @@ export default {
             const formData = new FormData();
             formData.append('video', videoFile);
 
-            axios.post('http://localhost:8081/upload', formData, {
+            axios.post(`http://${window.location.hostname}:8081/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -53,7 +53,7 @@ export default {
                 });
         },
         callModelReload() {
-            axios.post('http://localhost:8081/process')
+            axios.post(`http://${window.location.hostname}:8081/process`)
                 .then(response => {
                     console.log(response.data);
                 })

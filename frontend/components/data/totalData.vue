@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         async getChargers() {
-            await axios.get('http://localhost:8080/v/getList', {
+            await axios.get(`http://${window.location.hostname}:8080/v/getList`, {
                 headers: {
                     'Authorization': this.token.token,
                 },
@@ -48,7 +48,7 @@ export default {
             });
         },
         async getData() {
-            const res = await axios.get("http://localhost:8081/");
+            const res = await axios.get(`http://${window.location.hostname}:8081/`);
             const dataMap = new Map();
             console.log(res.data)
             for (const element of res.data) {

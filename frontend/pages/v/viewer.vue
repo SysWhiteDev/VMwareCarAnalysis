@@ -30,7 +30,7 @@ export default {
     },
     methods: {
         async getCode() {
-            await axios.post('http://localhost:8080/v/status', {
+            await axios.post(`http://${window.location.hostname}:8080/v/status`, {
                 firstTime: this.firstTime,
             }, {
                 headers: {

@@ -27,7 +27,7 @@ export default {
     methods: {
         async login() {
             try {
-                const res = await axios.post("http://localhost:8080/auth/login", {
+                const res = await axios.post(`http://${window.location.hostname}:8080/auth/login`, {
                     username: this.username,
                     password: this.password,
                 });

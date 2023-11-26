@@ -29,7 +29,7 @@ export default {
     methods: {
         async register() {
             try {
-                const res = await axios.post("http://localhost:8080/auth/register", {
+                const res = await axios.post(`http://${window.location.hostname}:8080/auth/register`, {
                     username: this.username,
                     email: this.email,
                     password: this.password,

@@ -63,7 +63,7 @@ export default {
     },
     methods: {
         async getChargers() {
-            await axios.get('http://localhost:8080/v/getList', {
+            await axios.get(`http://${window.location.hostname}:8080/v/getList`, {
                 headers: {
                     'Authorization': this.token.token,
                 },
@@ -74,7 +74,7 @@ export default {
             });
         },
         async deleteViewer(id) {
-            await axios.post('http://localhost:8080/v/delete', {
+            await axios.post(`http://${window.location.hostname}:8080/v/delete`, {
                 viewerid: id,
             }, {
                 headers: {
@@ -89,7 +89,7 @@ export default {
         },
         async updateModel() {
             this.updateButtonText = 'Refreshing model... please wait, this might take a while';
-            await axios.post("http://localhost:8081/process", {
+            await axios.post(`http://${window.location.hostname}:8081/process`, {
                 headers: {
                     'Authorization': this.token.token,
                 },
@@ -106,7 +106,7 @@ export default {
             })
         },
         async deleteCurrentModel() {
-            await axios.post("http://localhost:8081/d", {
+            await axios.post(`http://${window.location.hostname}:8081/d`, {
                 headers: {
                     'Authorization': this.token.token,
                 },
