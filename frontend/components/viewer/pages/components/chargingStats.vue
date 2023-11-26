@@ -24,6 +24,7 @@
     background: white;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.075);
     display: flex;
+    flex-direction: row;
     width: calc(100% - 40px);
     max-width: 1200px;
 }
