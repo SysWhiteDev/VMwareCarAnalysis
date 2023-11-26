@@ -49,7 +49,7 @@ export default {
             this.kids = Boolean(Math.round(Math.random()));
             this.time.hours = Math.floor(Math.random() * 25);
             this.weather = ['sunny', 'cloudy','rainy', 'windy', 'snowy'].sample();
-            this.temp = Math.floor(Math.random() * 30);
+            this.temp = Math.floor(Math.random() * 39);
         }
     }
 }
