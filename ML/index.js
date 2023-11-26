@@ -84,6 +84,10 @@ app.get("/", async (req, res) => {
   })
 });
 
+// import upload route
+import uploadRoute from "./uploadRoute.js";
+app.use(uploadRoute);
+
 app.listen(8081, () => {
   console.log("[SERVER] running on port 8081");
 });
