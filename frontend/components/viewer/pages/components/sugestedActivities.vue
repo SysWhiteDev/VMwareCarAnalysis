@@ -16,6 +16,7 @@
                 <p>What a great time to get some coffee at the 24h coffee machine</p>
             </div>
         </div>
+        <button @click="this.randomProps()">Randomize</button>
     </div>
 </template>
 
@@ -42,6 +43,13 @@ export default {
                 seconds: now.getSeconds()
             };
             this.time = timeObject;
+        },
+        randomProps(){
+            this.ev = Boolean(Math.round(Math.random()));
+            this.kids = Boolean(Math.round(Math.random()));
+            this.time.hours = Math.floor(Math.random() * 25);
+            this.weather = ['sunny', 'cloudy','rainy', 'windy', 'snowy'].sample();
+            this.temp = Math.floor(Math.random() * 30);
         }
     }
 }
