@@ -88,6 +88,7 @@ export default {
             });
         },
         async updateModel() {
+            this.updateButtonText = 'Refreshing model... please wait, this might take a while';
             await axios.post("http://localhost:8081/process", {
                 headers: {
                     'Authorization': this.token.token,

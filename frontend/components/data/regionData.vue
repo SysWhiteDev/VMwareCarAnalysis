@@ -32,6 +32,72 @@ export default {
                 hu: "Hungary",
                 pt: "Portugal",
                 at: "Austria",
+                "us-va": "United States - Virginia",
+                "us-ca": "United States - California",
+                "us-tx": "United States - Texas",
+                "us-ny": "United States - New York",
+                "us-fl": "United States - Florida",
+                br: "Brazil",
+                ca: "Canada",
+                au: "Australia",
+                jp: "Japan",
+                in: "India",
+                cn: "China",
+                kr: "South Korea",
+                mx: "Mexico",
+                ar: "Argentina",
+                cl: "Chile",
+                za: "South Africa",
+                ng: "Nigeria",
+                eg: "Egypt",
+                sa: "Saudi Arabia",
+                ae: "United Arab Emirates",
+                ru: "Russia",
+                tr: "Turkey",
+                ir: "Iran",
+                iq: "Iraq",
+                sy: "Syria",
+                af: "Afghanistan",
+                pk: "Pakistan",
+                lk: "Sri Lanka",
+                bd: "Bangladesh",
+                np: "Nepal",
+                th: "Thailand",
+                vn: "Vietnam",
+                id: "Indonesia",
+                ph: "Philippines",
+                sg: "Singapore",
+                my: "Malaysia",
+                nz: "New Zealand",
+                za: "South Africa",
+                eg: "Egypt",
+                ke: "Kenya",
+                et: "Ethiopia",
+                dz: "Algeria",
+                ma: "Morocco",
+                tn: "Tunisia",
+                sd: "Sudan",
+                ly: "Libya",
+                ug: "Uganda",
+                cd: "Democratic Republic of the Congo",
+                cm: "Cameroon",
+                ga: "Gabon",
+                sn: "Senegal",
+                ci: "Côte d'Ivoire",
+                ml: "Mali",
+                bf: "Burkina Faso",
+                lr: "Liberia",
+                sl: "Sierra Leone",
+                gw: "Guinea-Bissau",
+                gn: "Guinea",
+                gm: "The Gambia",
+                bj: "Benin",
+                tg: "Togo",
+                gh: "Ghana",
+                ng: "Nigeria",
+                ne: "Niger",
+                bf: "Burkina Faso",
+                ee: "Estonia",
             }
         };
     },
@@ -44,12 +110,14 @@ export default {
             const dataMap = new Map();
 
             for (const element of res.data) {
-                if (!this.labels.includes(this.countryList[element.region])) {
-                    this.labels.push(this.countryList[element.region]);
+                let label = this.countryList[element.region] ? this.countryList[element.region] : element.region;
+                if (!this.labels.includes(label)) {
+                    this.labels.push(label);
                 }
                 dataMap.set(element.region, (dataMap.get(element.region) || 0) + 1);
             }
-            
+
+
             this.data = Array.from(dataMap.values());
             console.log(Array.from(dataMap.values()));
         }

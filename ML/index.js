@@ -16,7 +16,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.post("/process", async (req, res) => {
   console.log("[ML] Image elaboration request recieved.")
-  videoSplitter('video.mp4');
+  await videoSplitter('video.mp4');
   const directoryPath = path.join(__dirname, "images");
   const filenames = readdirSync(directoryPath);
   let completeData = [];
@@ -32,7 +32,7 @@ app.post("/process", async (req, res) => {
       await axios
         .post("https://api.platerecognizer.com/v1/plate-reader/", body, {
           headers: {
-            Authorization: "Token 9f99ec0695d8a093ccf8d4bcb314fae8028be130",
+            Authorization: "Token c58ac951373fbf3c5e2602f1f9c461c6af0e3543",
             ...body.getHeaders(),
           },
         })
@@ -58,7 +58,7 @@ app.post("/process", async (req, res) => {
         .catch((error) => {
           console.log(error);
         });
-    }, 4000 * i);
+    }, 5000 * i);
   }
   console.log("[ML] Started elaborating images with success...")
   res.status(200).json({ message: "Elaborating images..."})
