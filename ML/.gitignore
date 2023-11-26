@@ -1,24 +1,19 @@
-
-# dependencies
-/node_modules
-
-# production build
-/build
-
-# dotenv environment variables file
-.env
-
-# IDE files
-.vscode/
-.idea/
-
-# logs
+# Logs
 logs
 *.log
 
-# testing
-/coverage
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
 
-# misc
-.DS_Store
-Thumbs.db
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+
+# Built output
+dist/
+build/
