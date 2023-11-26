@@ -9,12 +9,12 @@
             <div class="line">
                 <DataVehicleType />
             </div>
-            <div class="line">
+            <!-- <div class="line">
                 <DataVehicleColors />
             </div>
             <div class="line">
                 <DataVehicleOrientation />
-            </div>
+            </div> -->
         </div>
         <div class="notfound" v-else>
             <i class="fa-regular fa-circle-question"></i>

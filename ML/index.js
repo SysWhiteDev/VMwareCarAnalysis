@@ -16,7 +16,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.post("/process", async (req, res) => {
   console.log("[ML] Image elaboration request recieved.")
-  await videoSplitter('video.mp4');
+  await videoSplitter('./videos/video.mp4');
   const directoryPath = path.join(__dirname, "images");
   const filenames = readdirSync(directoryPath);
   let completeData = [];

@@ -3,7 +3,8 @@
         <i class="fa-solid fa-xmark close-button" @click="this.debug = 0"></i>
         <p class="section-title"><i class="fa-solid fa-bug"></i>Debug</p>
         <div class="actions">
-            <div class="action">
+            <input type="file" accept="video/*" class="action" ref="video" />
+            <div class="action" @click="handleFileUpload($refs.video)">
                 <i class="fa-solid fa-upload"></i>
                 <p>Upload sample video to the server</p>
             </div>
@@ -15,17 +16,51 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             debug: 0,
+            video: null,
         };
     },
     mounted() {
         setInterval(() => {
             this.time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }, 1000);
+    },
+    methods: {
+        handleFileUpload(video) {
+            const videoFile = video.files[0];
+            const formData = new FormData();
+            formData.append('video', videoFile);
+
+            axios.post('http://localhost:8081/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then(response => {
+                    // handle success
+                    console.log(response.data);
+                    this.callModelReload();
+                })
+                .catch(error => {
+                    // handle error
+                    console.error(error);
+                });
+        },
+        callModelReload() {
+            axios.post('http://localhost:8081/process')
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
     },
 };
 </script>
@@ -72,8 +107,8 @@ export default {
 /* actions */
 .actions {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: space-between;
     margin-top: 10px;
 }
@@ -89,6 +124,11 @@ export default {
     cursor: pointer;
     color: black;
     text-decoration: none;
+
+}
+
+.action:not(:last-child) {
+    margin-bottom: 10px;
 }
 
 .action>i {
