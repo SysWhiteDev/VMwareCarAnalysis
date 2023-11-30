@@ -4,7 +4,8 @@ import axios from "axios";
 import FormData from "form-data";
 import fs, { readFileSync, readdirSync } from "fs";
 import { fileURLToPath } from "url";
-import { db } from "./db.js";
+import db from "./db.js";
+import "dotenv/config";
 import path, { dirname } from "path";
 import videoSplitter from "./videoSplitter.js";
 
@@ -39,15 +40,15 @@ app.post("/process", async (req, res) => {
         .then((response) => {
            response.data.results.forEach((result) => {
             // check if car is already in our database
-            db.get("SELECT plate FROM cars WHERE plate = ?", [result.plate], (err, row) => {
+            db.query("SELECT plate FROM cars WHERE plate = ?", [result.plate], (err, row) => {
               if (err) {
                 res.status(500).json({ message: 'Internal Server Error.'})
               }
-              if (row) {
+              if (row.length > 0) {
                 // console.log("already in db");
                 return
               }
-              db.run("INSERT INTO cars (plate, region, type, acc) VALUES (?, ?, ?, ?)", [result.plate, result.region.code, result.vehicle.type, result.dscore], (err) => {
+              db.execute("INSERT INTO cars (plate, region, type, acc) VALUES (?, ?, ?, ?)", [result.plate, result.region.code, result.vehicle.type, result.dscore], (err) => {
                 if (err) {
                   res.status(500).json({ message: 'Internal Server Error.'})
                 }
@@ -65,7 +66,7 @@ app.post("/process", async (req, res) => {
 })
 
 app.post("/d", (req, res) => {
-  db.run("DELETE FROM cars", (err) => {
+  db.execute("DELETE FROM cars", (err) => {
     if (err) {
       res.status(500).json({ message: 'Internal Server Error.'})
     }
@@ -74,7 +75,7 @@ app.post("/d", (req, res) => {
 });
 
 app.get("/", async (req, res) => {
-  db.all("SELECT * FROM cars", (err, row) => {
+  db.query("SELECT * FROM cars", (err, row) => {
     if (err) {
       console.log(err);
       res.status(500).json({ 'message': "Internal Servesr Error"});
@@ -88,6 +89,6 @@ app.get("/", async (req, res) => {
 import uploadRoute from "./uploadRoute.js";
 app.use(uploadRoute);
 
-app.listen(8081, () => {
-  console.log("[SERVER] running on port 8081");
+app.listen(process.env.PORT, () => {
+  console.log(`[SERVER] running on port ${process.env.PORT}`);
 });

@@ -10,8 +10,6 @@ services:
       MYSQL_DATABASE: vmware
       MYSQL_USER: vmware
       MYSQL_PASSWORD: vmware
-    ports:
-      - 3306:3306
     volumes:
       - ./backend/migrations:/docker-entrypoint-initdb.d
     healthcheck:
@@ -26,18 +24,50 @@ services:
     container_name: backend
     restart: always
     environment:
-      - HOST=backend-db
+      PORT: 8080
+      JWT_SECRET: HelloFromSysWhite # !! CHANGE THIS !!
+      DB_HOST: backend-db
+      DB_PORT: 3306
+      DB_USER: vmware
+      DB_NAME: vmware
+      DB_PASS: vmware
     depends_on:
       backend-db:
         condition: service_healthy
     ports:
       - 8080:8080
+  ml-db:
+    image: mysql:8.0
+    container_name: ml-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: vmware
+      MYSQL_DATABASE: vmware
+      MYSQL_USER: vmware
+      MYSQL_PASSWORD: vmware
+    volumes:
+      - ./ML/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root --password=vmware"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
   ml:
     build: 
       context: ./ML
       dockerfile: ./Dockerfile
     container_name: ML
     restart: always
+    environment:
+      PORT: 8081
+      DB_HOST: ml-db
+      DB_PORT: 3306
+      DB_USER: vmware
+      DB_NAME: vmware
+      DB_PASS: vmware
+    depends_on:
+      ml-db:
+        condition: service_healthy
     ports:
       - 8081:8081
   frontend:

@@ -1,5 +1,12 @@
-import sqlite3 from "sqlite3";
+import mysql from "mysql2";
+import "dotenv/config";
 
-export const db = new sqlite3.Database("./db.sqlite", () => {
-    console.log("[DB] Database connected with success.")
-})
+const db = mysql.createConnection({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASS,
+});
+
+export default db;
