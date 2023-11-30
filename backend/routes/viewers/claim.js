@@ -5,11 +5,11 @@ const claim = Router();
 claim.post("/", (req, res) => {
   // check if the viewer exists in viewers table
   const viewerid = req.body.viewerid;
-  utils.db.get("SELECT * FROM viewers WHERE id = ?", [viewerid], (err, row) => {
+  utils.db.query("SELECT * FROM viewers WHERE id = ?", [viewerid], (err, row) => {
     if (err) {
       console.log(err);
       res.status(500).json({ error: "Internal server error" });
-    } else if (row) {
+    } else if (row.length != 0) {
       // viewer exists check its status if 0 generate a token
       if (row.status == 1) {
         res.status(401).json({ error: "Viewer taken" });
@@ -21,7 +21,7 @@ claim.post("/", (req, res) => {
         process.env.JWT_SECRET
       );
       // update viewers table
-      utils.db.run(
+      utils.db.execute(
         "UPDATE viewers SET status = 0 WHERE id = ?",
         [viewerid],
         (err) => {
@@ -29,7 +29,7 @@ claim.post("/", (req, res) => {
             console.log(err);
             res.status(500).json({ error: "Internal server error" });
           } else {
-            utils.db.run(
+            utils.db.execute(
               "INSERT INTO viewers_tokens (viewerid, token) VALUES (?, ?)",
               [viewerid, token],
               (err) => {
@@ -44,7 +44,7 @@ claim.post("/", (req, res) => {
                   process.env.JWT_SECRET
                 ).id;
                 // set the owner column in trhe viewers table to the userid
-                utils.db.run(
+                utils.db.execute(
                   "UPDATE viewers SET owner = ? WHERE id = ?",
                   [userid, viewerid],
                   (err) => {

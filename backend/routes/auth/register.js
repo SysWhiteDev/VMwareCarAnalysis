@@ -10,7 +10,7 @@ register.post("/", (req, res) => {
     return;
   }
 
-  utils.db.get(
+  utils.db.query(
     "SELECT username FROM users WHERE username = ?",
     [req.body.username],
     (err, row) => {
@@ -18,17 +18,15 @@ register.post("/", (req, res) => {
         res.status(500).json({ message: "Internal server error" });
         return;
       }
-
-      if (row) {
+      if (row.length != 0) {
         res.status(400).json({ message: "Username already taken" });
         return;
       }
 
       // hash the password
       const hashedPassword = utils.bcrypt.hashSync(req.body.password, 10);
-
       // insert the new user into the database
-      utils.db.run(
+      utils.db.execute(
         "INSERT INTO users (username, password, email) VALUES (?, ?, ?)",
         [req.body.username, hashedPassword, req.body.email],
         (err) => {

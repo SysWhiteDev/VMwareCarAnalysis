@@ -1,10 +1,35 @@
+version: '3.8'
+
 services:
+  backend-db:
+    image: mysql:8.0
+    container_name: backend-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: vmware
+      MYSQL_DATABASE: vmware
+      MYSQL_USER: vmware
+      MYSQL_PASSWORD: vmware
+    ports:
+      - 3306:3306
+    volumes:
+      - ./backend/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root --password=vmware"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
   backend:
     build: 
       context: ./backend
       dockerfile: ./Dockerfile
     container_name: backend
     restart: always
+    environment:
+      - HOST=backend-db
+    depends_on:
+      backend-db:
+        condition: service_healthy
     ports:
       - 8080:8080
   ml:

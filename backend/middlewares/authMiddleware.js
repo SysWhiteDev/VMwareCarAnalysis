@@ -2,7 +2,7 @@ import utils from "../utils/utils.js";
 
 const authMiddleware = (req, res, next) => {
     // check in database the token present in headers
-    utils.db.get(
+    utils.db.query(
         "SELECT * FROM tokens WHERE token = ?",
         [req.headers.authorization],
         (err, row) => {
@@ -13,7 +13,7 @@ const authMiddleware = (req, res, next) => {
 
             // if token doesn't exist
             // console.log(req.headers.authorization)
-            if (!row) {
+            if (row.length == 0) {
                 res.status(401).json({ message: "Unauthorized" });
                 return;
             }

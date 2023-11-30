@@ -16,16 +16,16 @@ status.post("/", (req, res) => {
     // create a viewer in the viewers table
     // generate a random 6 digit number to be used as id, we must check for duplicates
     let id = Math.floor(100000 + Math.random() * 900000);
-    utils.db.get("SELECT * FROM viewers WHERE id = ?", [id], (err, row) => {
+    utils.db.query("SELECT * FROM viewers WHERE id = ?", [id], (err, row) => {
       if (err) {
         res.status(500).json({ message: "Internal server error" });
         return;
       }
-      if (row) {
+      if (row.length != 0) {
         id = Math.floor(100000 + Math.random() * 900000);
       }
-      if (!row) {
-        utils.db.run(
+      if (row.length == 0) {
+        utils.db.execute(
           "INSERT INTO viewers (id, status) VALUES (?, ?)",
           [id, 0],
           (err) => {
@@ -43,7 +43,7 @@ status.post("/", (req, res) => {
     });
   } else {
     // check the viewer id in the viewers table
-    utils.db.get(
+    utils.db.query(
       "SELECT * FROM viewers WHERE id = ?",
       [req.headers.id],
       (err, row) => {
@@ -51,7 +51,8 @@ status.post("/", (req, res) => {
           res.status(500).json({ message: "Internal server error" });
           return;
         }
-        if (!row) {
+
+        if (row.length === 0) {
           res.status(404).json({ message: "Viewer not found" });
           return;
         }
@@ -60,7 +61,7 @@ status.post("/", (req, res) => {
           return;
         }
         // return as a response the token present in viewers_tokens table
-        utils.db.get(
+        utils.db.query(
           "SELECT * FROM viewers_tokens WHERE viewerid = ?",
           [req.headers.id],
           (err, row) => {
@@ -68,12 +69,12 @@ status.post("/", (req, res) => {
               res.status(500).json({ message: "Internal server error" });
               return;
             }
-            if (!row) {
+            if (row.length === 0) {
               res.status(404).json({ message: "Viewer not found" });
               return;
             }
             // set status as 1 in viewers table
-            utils.db.run(
+            utils.db.execute(
               "UPDATE viewers SET status = 1 WHERE id = ?",
               [req.headers.id],
               (err) => {
@@ -83,10 +84,9 @@ status.post("/", (req, res) => {
                 }
               }
             );
-            
             res.send({
               status: "success",
-              token: row.token,
+              token: row[0].token,
             });
           }
         );
@@ -96,7 +96,7 @@ status.post("/", (req, res) => {
 });
 
 function checkAuth(token) {
-  utils.db.get(
+  utils.db.query(
     "SELECT * FROM viewers_tokens WHERE token = ?",
     [token],
     (err, row) => {
@@ -105,7 +105,7 @@ function checkAuth(token) {
       }
 
       // if token doesn't exist
-      if (!row) {
+      if (row.length == 0) {
         return false;
       }
 

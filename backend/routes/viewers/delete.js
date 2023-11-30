@@ -11,13 +11,13 @@ deleteViewer.post("/", (req, res) => {
 
   // delete viewer from database
   const viewerid = req.body.viewerid;
-  utils.db.run(`DELETE FROM viewers WHERE id = ?`, [viewerid], function (err) {
+  utils.db.execute(`DELETE FROM viewers WHERE id = ?`, [viewerid], function (err) {
     if (err) {
       res.status(500).json({ status: "error", message: err.message });
       return;
     }
     // delete all tokens of that viewer from viewer_tokens table
-    utils.db.run(
+    utils.db.execute(
       `DELETE FROM viewers_tokens WHERE viewerid = ?`,
       [viewerid],
       function (err, row) {

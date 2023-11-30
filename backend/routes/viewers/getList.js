@@ -8,7 +8,7 @@ getList.get("/", (req, res) => {
     req.headers.authorization,
     process.env.JWT_SECRET
   ).id;
-  utils.db.all(
+  utils.db.query(
     "SELECT * FROM viewers WHERE owner = ?",
     [userid],
     (err, rows) => {

@@ -2,7 +2,7 @@ import utils from "../utils/utils.js";
 
 const viewersAuthMiddleware = (req, res, next) => {
     // check in database the token present in headers
-    utils.db.get(
+    utils.db.query(
         "SELECT * FROM viewers_tokens WHERE token = ?",
         [req.headers.authorization],
         (err, row) => {
@@ -12,7 +12,7 @@ const viewersAuthMiddleware = (req, res, next) => {
             }
 
             // if token doesn't exist
-            if (!row) {
+            if (row.length == 0) {
                 res.status(401).json({ message: "Unauthorized" });
                 return;
             }
