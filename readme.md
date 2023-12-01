@@ -43,19 +43,15 @@ The part of software that takes care of analyzing the footage sent by the variou
   <br>
   <b>Step 1</b>: Install docker engine<br/>
   First of all you need docker engine installed on your machine, you can install it by following the instructions on the official <a href="https://docs.docker.com/engine/install/" target="_blank">Docker website</a><br><br>
-
+    
   <b>Step 2</b>: Clone the repository to your machine<br/>
   ```bash
   git clone https://github.com/SysWhiteDev/VMwareCarAnalysis.git
   ```
-  <br>
-
   <b>Step 3</b>: Navigate to the repository directory<br/>
   ```bash
   cd VMwareCarAnalysis
   ```
-  <br>
-  
   <b>Step 4</b>: Spin docker compose up<br/>
   ```bash
   docker compose up
@@ -71,14 +67,10 @@ The part of software that takes care of analyzing the footage sent by the variou
   ```bash
   git clone https://github.com/SysWhiteDev/VMwareCarAnalysis.git
   ```
-  <br>
-
   <b>Step 2</b>: Navigate to the repository directory<br/>
   ```bash
   cd VMwareCarAnalysis
   ```
-  <br>
-  
   <b>Step 3</b>: Install MySQL server
   ```bash
   sudo apt-get update
