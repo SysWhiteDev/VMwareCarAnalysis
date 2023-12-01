@@ -1,7 +1,7 @@
-# EVgagement
+# EVgagement ![Stable](https://github.com/SysWhiteDev/VMwareCarAnalysis/actions/workflows/DockerComposeTest.yml/badge.svg?branch=main)
 This project aims to make EV charging more fun and engaging for the end users.
 To accomplish this we make use of computer vision to analyze videos coming from the charging station, enabling personalized recommendations for users while their car is charging.
-
+[<br><br>
 
 ## Directory structure
 ### /frontend
