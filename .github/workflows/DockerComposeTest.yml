@@ -1,0 +1,33 @@
+name: containers test
+
+on:
+ push:
+   branches:
+     - main
+ pull_request:
+   branches:
+     - main
+
+jobs:
+ test:
+   runs-on: ubuntu-latest
+
+   steps:
+   - name: Checkout code
+     uses: actions/checkout@v2
+
+   - name: Build and start Docker containers
+     run: |
+       docker-compose up -d
+
+   - name: Check if containers are running
+     run: |
+       docker ps
+
+   - name: Check containers status
+     run: |
+       docker inspect -f '{{.State.Status}}' backend-db
+       docker inspect -f '{{.State.Status}}' backend
+       docker inspect -f '{{.State.Status}}' ml-db
+       docker inspect -f '{{.State.Status}}' ml
+       docker inspect -f '{{.State.Status}}' frontend
