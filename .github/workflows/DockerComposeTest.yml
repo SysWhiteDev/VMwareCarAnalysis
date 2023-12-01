@@ -1,4 +1,4 @@
-name: containers test
+name: Docker Compose Testing
 
 on:
  push:
@@ -9,7 +9,7 @@ on:
      - main
 
 jobs:
- test:
+ running-containers:
    runs-on: ubuntu-latest
 
    steps:
@@ -29,5 +29,5 @@ jobs:
        docker inspect -f '{{.State.Status}}' backend-db
        docker inspect -f '{{.State.Status}}' backend
        docker inspect -f '{{.State.Status}}' ml-db
-       docker inspect -f '{{.State.Status}}' ml
+       docker inspect -f '{{.State.Status}}' ML
        docker inspect -f '{{.State.Status}}' frontend
