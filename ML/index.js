@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 import db from "./db.js";
 import "dotenv/config";
 import path, { dirname } from "path";
-import videoSplitter from "./videoSplitter.js";
+
 
 const app = Express();
 app.use(Express.json());
@@ -17,14 +17,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.post("/process", async (req, res) => {
   console.log("[ML] Image elaboration request recieved.")
-  await videoSplitter('./videos/video.mp4');
+//  await videoSplitter('./videos/video.mp4');
   const directoryPath = path.join(__dirname, "images");
   const filenames = readdirSync(directoryPath);
-  let completeData = [];
-  for (let i = 0; i < filenames.length; i++) {
-    setTimeout(async () => {
       const filedata = fs.createReadStream(
-        path.join(directoryPath, filenames[i])
+        path.join(directoryPath, filenames[0])
       );
       let body = new FormData();
       body.append("upload", filedata);
@@ -59,8 +56,6 @@ app.post("/process", async (req, res) => {
         .catch((error) => {
           console.log(error);
         });
-    }, 5000 * i);
-  }
   console.log("[ML] Started elaborating images with success...")
   res.status(200).json({ message: "Elaborating images..."})
 })
