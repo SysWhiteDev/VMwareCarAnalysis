@@ -1,15 +1,10 @@
 <template>
-    <div class="container" v-if="debug >= 5">
+    <!-- <div class="container" v-if="debug >= 5">
         <i class="fa-solid fa-xmark close-button" @click="this.debug = 0"></i>
         <p class="section-title"><i class="fa-solid fa-bug"></i>Debug</p>
         <div class="actions">
-            <input type="file" accept="video/*" class="action" ref="video" />
-            <div class="action" @click="handleFileUpload($refs.video)">
-                <i class="fa-solid fa-upload"></i>
-                <p>{{ uploadButtonText }}</p>
-            </div>
         </div>
-    </div>
+    </div> -->
     <div class="clock" @click="this.debug++">
         {{ time }}
     </div>
@@ -31,6 +26,7 @@ export default {
         setInterval(() => {
             this.time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }, 1000);
+        this.handleFileUpload()
         setInterval(()=> {
             this.handleFileUpload()
         }, 6000)

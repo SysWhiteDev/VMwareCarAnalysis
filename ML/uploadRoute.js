@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
     cb(null, "images/");
   },
   filename: (req, file, cb) => {
-    cb(null, "gaming.png");
+    cb(null, "image.png");
   },
 });
 
@@ -22,12 +22,13 @@ uploadRoute.post("/upload", upload.single("image"), async (req, res) => {
     if (err) throw err;
 
     for (const file of files) {
-      // Check if the file is an image
       if (
         path.extname(file) === ".jpg" ||
         path.extname(file) === ".png" ||
         path.extname(file) === ".gif"
       ) {
+        return
+      } else {
         fs.unlink(path.join(directory, file), (err) => {
           if (err) throw err;
         });

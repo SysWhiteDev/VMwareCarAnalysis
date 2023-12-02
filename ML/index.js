@@ -25,7 +25,7 @@ app.post("/process", async (req, res) => {
       );
       let body = new FormData();
       body.append("upload", filedata);
-    //   body.append("mmc", "true");
+      //   body.append("mmc", "true");
       body.append("regions", "it");
       await axios
         .post("https://api.platerecognizer.com/v1/plate-reader/", body, {
