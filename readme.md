@@ -9,7 +9,7 @@
 ⭐ Star us on GitHub — it motivates us a lot!
 
 This project aims to make EV charging more fun and engaging for the end users.
-To accomplish this we make use of computer vision to analyze photos uploaded by the charging station, enabling personalized recommendations and ease of use for users while their car is charging.
+To accomplish this we make use of computer vision to analyze photos uploaded by the charging station, enabling personalized recommendations and reducing friction for the users while their car is charging.
 <br>
 
 <img src="https://www.vdr.one/wp-content/uploads/2015/10/vmware-banner.png">
@@ -24,17 +24,17 @@ To accomplish this we make use of computer vision to analyze photos uploaded by 
 
 <details>
 <summary>~/frontend</summary>
-All the needed files to run the frontend flawlessly.
+All the needed files to run the frontend.
 </details>
 
 <details>
 <summary>~/backend</summary>
-The brains of the frontend, manages authentication and viewer syncronization.
+The "brain" of the frontend, it manages authentication and viewer syncronization.
 </details>
 
 <details>
 <summary>~/ML</summary>
-The part of software that takes care of analyzing the footage sent by the various viewers.
+The part of the software that takes care of analyzing the footage sent by the various clients.
 </details>
 
 ## How to run the application
@@ -61,7 +61,7 @@ The part of software that takes care of analyzing the footage sent by the variou
 
 <details>
   <summary>The bare bone way, recommended for development 🧑‍💻</summary><br>
-  <b>NOTE: This process it's for a debian based system</b><br><br>
+  <b>NOTE: This is the process for a debian based system</b><br><br>
 
   <b>Step 1</b>: Clone the repository to your machine<br/>
   ```bash
@@ -191,7 +191,7 @@ The part of software that takes care of analyzing the footage sent by the variou
   ```bash
   npm run dev
   ```
-<b>DONE!</b> with this setup, the application will automatically update on code change, the app frontend will be running on port 3000.<br/>
+<b>DONE!</b> with this setup, the application will automatically refresh when the code changes, the app frontend will be running on port 3000.<br/>
 </details>
 
 ## Team
