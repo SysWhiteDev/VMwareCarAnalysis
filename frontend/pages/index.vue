@@ -33,13 +33,14 @@ export default {
         };
     },
     mounted() {
-        this.getData();
+        setInterval(() => {
+            this.getData();
+        }, 1000);
     },
     methods: {
         async getData() {
             const res = await axios.get(`http://${window.location.hostname}:8081/`);
             const dataMap = new Map();
-            console.log(res.data)
             for (const element of res.data) {
                 if (!this.labels.includes(element.color)) {
                     this.labels.push(element.color);
@@ -48,11 +49,8 @@ export default {
             }
 
             this.data = Array.from(dataMap.values());
-            console.log(Array.from(dataMap.values()));
         }
-
     }
-
 }
 </script>
 

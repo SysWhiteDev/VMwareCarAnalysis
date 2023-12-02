@@ -19,7 +19,9 @@ export default {
         };
     },
     mounted() {
-        this.getData();
+        setInterval(() => {
+            this.getData();
+        }, 1000);
     },
     methods: {
         async getData() {

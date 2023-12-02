@@ -7,34 +7,35 @@ const directory = "./images";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "videos/");
+    cb(null, "images/");
   },
   filename: (req, file, cb) => {
-    cb(null, "video.mp4");
+    cb(null, "image.png");
   },
 });
 
 const upload = multer({ storage: storage });
 const uploadRoute = Router();
 
-uploadRoute.post("/upload", upload.single("video"), async (req, res) => {
+uploadRoute.post("/upload", upload.single("image"), async (req, res) => {
   fs.readdir(directory, (err, files) => {
     if (err) throw err;
 
     for (const file of files) {
-      // Check if the file is an image
       if (
         path.extname(file) === ".jpg" ||
         path.extname(file) === ".png" ||
         path.extname(file) === ".gif"
       ) {
+        return
+      } else {
         fs.unlink(path.join(directory, file), (err) => {
           if (err) throw err;
         });
       }
     }
   });
-  res.status(200).json({ message: "Video uploaded successfully" });
+  res.status(200).json({ message: "Image uploaded successfully" });
 });
 
 export default uploadRoute;

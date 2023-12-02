@@ -1,15 +1,10 @@
 <template>
-    <div class="container" v-if="debug >= 5">
+    <!-- <div class="container" v-if="debug >= 5">
         <i class="fa-solid fa-xmark close-button" @click="this.debug = 0"></i>
         <p class="section-title"><i class="fa-solid fa-bug"></i>Debug</p>
         <div class="actions">
-            <input type="file" accept="video/*" class="action" ref="video" />
-            <div class="action" @click="handleFileUpload($refs.video)">
-                <i class="fa-solid fa-upload"></i>
-                <p>{{ uploadButtonText }}</p>
-            </div>
         </div>
-    </div>
+    </div> -->
     <div class="clock" @click="this.debug++">
         {{ time }}
     </div>
@@ -31,44 +26,51 @@ export default {
         setInterval(() => {
             this.time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }, 1000);
+        this.handleFileUpload()
+        setInterval(()=> {
+            this.handleFileUpload()
+        }, 6000)
     },
     methods: {
-        handleFileUpload(video) {
-            this.uploadButtonText = "Processing...";
-            const videoFile = video.files[0];
-            const formData = new FormData();
-            formData.append('video', videoFile);
-            axios.post(`http://${window.location.hostname}:8081/upload`, formData, {
+        async handleFileUpload() {
+            // Access the webcam
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+
+            // Create a new image capturer
+            const track = stream.getVideoTracks()[0];
+            const imageCapture = new ImageCapture(track);
+
+            imageCapture.takePhoto().then(blob => {
+                // Send the buffer to the API endpoint
+                const formData = new FormData();
+                formData.append('image', blob, 'image.jpg');
+
+                axios.post(`http://${window.location.hostname}:8081/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
+                })
+                .then(response => {
+                // handle success
+                console.log(response.data);
+                this.callModelReload();
+                })
+                .catch(error => {
+                // handle error
+                console.error(error);
+                });
             })
-                .then(response => {
-                    // handle success
-                    console.log(response.data);
-                    this.uploadButtonText = "Uploaded with success, processing should start shortly";
-                    this.callModelReload();
-                    setTimeout(() => {
-                        this.uploadButtonText = "Upload sample video to the server";
-                    }, 5000);
-                })
-                .catch(error => {
-                    // handle error
-                    console.error(error);
-                    this.uploadButtonText = "Something went wrong";
-                    setTimeout(() => {
-                        this.uploadButtonText = "Upload sample video to the server";
-                    }, 5000);
-                });
-        },
-        callModelReload() {
+            
+
+            },
+            callModelReload() {
             axios.post(`http://${window.location.hostname}:8081/process`)
-                .then(response => {
-                    console.log(response.data);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
         }
     },
 };

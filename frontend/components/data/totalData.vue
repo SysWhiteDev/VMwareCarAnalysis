@@ -32,8 +32,10 @@ export default {
         }
     },
     mounted() {
-        this.getChargers();
-        this.getData();
+        setInterval(() => {
+            this.getChargers();
+            this.getData();
+        }, 1000);
     },
     methods: {
         async getChargers() {

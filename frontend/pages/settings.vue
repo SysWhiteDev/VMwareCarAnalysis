@@ -29,10 +29,10 @@
         </div>
         <p class="title">ML Model</p>
         <div class="chargers-wrapper">
-            <button @click="updateModel()" class="update-button" :class="{ success: updateButtonSuccess }"><i
+            <!-- <button @click="updateModel()" class="update-button" :class="{ success: updateButtonSuccess }"><i
                     class="fa-solid fa-arrows-rotate" v-if="!updateButtonSuccess"></i>
                 <i class="fa-solid fa-check" v-else></i>{{ updateButtonText
-                }}</button>
+                }}</button> -->
             <button @click="deleteCurrentModel()" class="update-button" :class="{ success: deleteButtonSuccess }"><i
                     class="fa-solid fa-trash-can" v-if="!deleteButtonSuccess"></i><i class="fa-solid fa-check"
                     v-else></i>{{ this.deleteButtonText
