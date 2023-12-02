@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: vmware
-      MYSQL_DATABASE: vmware
+      MYSQL_DATABASE: backend-db
       MYSQL_USER: vmware
       MYSQL_PASSWORD: vmware
     volumes:
@@ -42,7 +42,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: vmware
-      MYSQL_DATABASE: vmware
+      MYSQL_DATABASE: ml-db
       MYSQL_USER: vmware
       MYSQL_PASSWORD: vmware
     volumes:
