@@ -29,7 +29,7 @@ services:
       DB_HOST: backend-db
       DB_PORT: 3306
       DB_USER: vmware
-      DB_NAME: vmware
+      DB_NAME: backend-db
       DB_PASS: vmware
     depends_on:
       backend-db:
@@ -63,7 +63,7 @@ services:
       DB_HOST: ml-db
       DB_PORT: 3306
       DB_USER: vmware
-      DB_NAME: vmware
+      DB_NAME: ml-db
       DB_PASS: vmware
     depends_on:
       ml-db:
