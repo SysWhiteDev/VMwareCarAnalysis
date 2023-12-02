@@ -43,7 +43,7 @@ login.post("/", (req, res) => {
           // set all other tokens of the user to status 0
           utils.db.execute(
             "UPDATE tokens SET status = 0 WHERE userid = ? AND token != ?",
-            [row.id, token],
+            [row[0].id, token],
             (err) => {
               if (err) {
                 res.status(500).json({ message: "Internal server error" });
@@ -53,7 +53,6 @@ login.post("/", (req, res) => {
           );
         }
       );
-
       res.status(200).json({ token });
     }
   );
