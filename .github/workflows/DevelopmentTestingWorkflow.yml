@@ -1,0 +1,33 @@
+name: development
+
+on:
+ push:
+  branches:
+    - development
+ pull_request:
+  branches:
+    - devolpment
+
+jobs:
+ testing-containers:
+  runs-on: ubuntu-latest
+
+  steps:
+  - name: Checkout code
+    uses: actions/checkout@v2
+
+  - name: Build and start Docker containers
+    run: |
+      docker-compose up -d
+
+  - name: Check if containers are running
+    run: |
+      docker ps
+
+  - name: Check containers status
+    run: |
+      if [ "$(docker inspect -f '{{.State.Status}}' backend-db)" != "running" ]; then exit 1; fi
+      if [ "$(docker inspect -f '{{.State.Status}}' backend)" != "running" ]; then exit 1; fi
+      if [ "$(docker inspect -f '{{.State.Status}}' ml-db)" != "running" ]; then exit 1; fi
+      if [ "$(docker inspect -f '{{.State.Status}}' ML)" != "running" ]; then exit 1; fi
+      if [ "$(docker inspect -f '{{.State.Status}}' frontend)" != "running" ]; then exit 1; fi
