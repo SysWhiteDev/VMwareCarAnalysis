@@ -32,6 +32,7 @@ uploadRoute.post("/upload", upload.single("image"), async (req, res) => {
         path.extname(file) === ".png" ||
         path.extname(file) === ".gif"
       ) {
+        res.status(200).json({ message: "Image uploaded successfully" });
         return;
       } else {
         fs.unlink(path.join(directory, file), (err) => {
@@ -40,7 +41,6 @@ uploadRoute.post("/upload", upload.single("image"), async (req, res) => {
       }
     }
   });
-  res.status(200).json({ message: "Image uploaded successfully" });
 });
 
 export default uploadRoute;
