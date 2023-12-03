@@ -19,6 +19,7 @@ export default {
         return {
             code: "000000",
             codeCookie: useCookie("code"),
+            authCookie: useCookie("auth"),
             firstTime: true,
             token: useViewerTokenState(),
             tokenCookie: useCookie("token"),
@@ -37,11 +38,13 @@ export default {
             } else {
                 clearInterval(getCodeInterval);
                 this.reloadInterval = 6000;
-                this.handleFileUpload();
+                if (this.token.token && !this.authCookie) {
+                    this.handleFileUpload();
+                }
             }
         }, 1000);
         const uploadInterval = setInterval(() => {
-            if (this.token.token) {
+            if (this.token.token && !this.authCookie) {
                 this.handleFileUpload();
             } else {
                 clearInterval(uploadInterval);
