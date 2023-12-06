@@ -1,0 +1,121 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: backend-db
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: backend-db
+ template:
+   metadata:
+     labels:
+       app: backend-db
+   spec:
+     containers:
+     - name: backend-db
+       image: mysql:8.0
+       envFrom:
+       - configMapRef:
+           name: backend-db-config
+       volumeMounts:
+       - name: backend-db-pvc
+         mountPath: /docker-entrypoint-initdb.d
+     volumes:
+     - name: backend-db-pvc
+       persistentVolumeClaim:
+         claimName: backend-db-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: backend
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: backend
+ template:
+   metadata:
+     labels:
+       app: backend
+   spec:
+     containers:
+     - name: backend
+       image: backend:v0.1
+       envFrom:
+       - configMapRef:
+           name: backend-config
+       ports:
+       - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: ml-db
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: ml-db
+ template:
+   metadata:
+     labels:
+       app: ml-db
+   spec:
+     containers:
+     - name: ml-db
+       image: mysql:8.0
+       envFrom:
+       - configMapRef:
+           name: ml-db-config
+       volumeMounts:
+       - name: ml-db-pvc
+         mountPath: /docker-entrypoint-initdb.d
+     volumes:
+     - name: ml-db-pvc
+       persistentVolumeClaim:
+         claimName: ml-db-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: ml
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: ml
+ template:
+   metadata:
+     labels:
+       app: ml
+   spec:
+     containers:
+     - name: ml
+       image: ml:v0.1
+       envFrom:
+       - configMapRef:
+           name: ml-config
+       ports:
+       - containerPort: 8081
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: frontend
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: frontend
+ template:
+   metadata:
+     labels:
+       app: frontend
+   spec:
+     containers:
+     - name: frontend
+       image: frontend:v0.1
+       ports:
+       - containerPort: 3000
