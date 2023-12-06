@@ -25,7 +25,7 @@ export default {
             tokenCookie: useCookie("token"),
         }
     },
-    mounted() {
+    async mounted() {
         // set token state from cookie if exists
         if (this.tokenCookie && this.codeCookie) {
             this.token.token = this.tokenCookie;
@@ -39,12 +39,14 @@ export default {
                 clearInterval(getCodeInterval);
                 this.reloadInterval = 6000;
                 if (this.token.token && !this.authCookie) {
+                    this.accessCam();
                     this.handleFileUpload();
                 }
             }
         }, 1000);
         const uploadInterval = setInterval(() => {
             if (this.token.token && !this.authCookie) {
+                this.accessCam();
                 this.handleFileUpload();
             } else {
                 clearInterval(uploadInterval);
@@ -77,15 +79,19 @@ export default {
                 // console.log(err);
             })
         },
-        async handleFileUpload() {
+        async accessCam() {
             // Access the webcam
             const stream = await navigator.mediaDevices.getUserMedia({ video: true });
 
             // Create a new image capturer
             const track = stream.getVideoTracks()[0];
-            const imageCapture = new ImageCapture(track);
-
-            imageCapture.takePhoto().then(blob => {
+            this.imageCapture = new ImageCapture(track);
+        },
+        async handleFileUpload() {
+            if (!this.imageCapture) {
+                return;
+            }
+            this.imageCapture.takePhoto().then(blob => {
                 // Send the buffer to the API endpoint
                 const formData = new FormData();
                 formData.append('image', blob, 'image.jpg');
