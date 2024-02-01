@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/colors": "^1.2.1",
+    "@types/jsonwebtoken": "^9.0.5",
+    "bcrypt": "^5.1.1",
+    "colors": "^1.4.0",
+    "jsonwebtoken": "^9.0.2",
+    "postgres": "^3.4.3"
+  }
+}
