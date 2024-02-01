@@ -2,8 +2,6 @@
 import 'dotenv/config';
 import express from 'express';
 import {log} from './utils/utils';
-import redis from './services/redis';
-console.log(redis);
 
 const app = express();
 app.use(express.json());
@@ -11,6 +9,10 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.send(`EVver2 running`);
 });
+
+// AUTH ROUTES
+import authRoutes from "./routes/auth";
+app.use("/auth", authRoutes);
 
 app.listen(process.env.PORT, () => {
     log(`Server is running at http://localhost:${process.env.PORT || 8069}`, "info");

@@ -4,9 +4,7 @@ import {log} from '../utils/utils';
 const connectRedis = async () => {
     return await createClient()
         .on('error', err => log("Redis error: " + err, "error"))
+        .on('ready', () => log("Redis ready", "info"))
         .connect();
-}
-
-const redis = connectRedis().then(() => log("Redis connected", "info"));
-
-export default redis;
+};
+export default connectRedis();
