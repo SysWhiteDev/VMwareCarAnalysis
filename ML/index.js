@@ -16,7 +16,7 @@ app.use(cors());
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.post("/process", async (req, res) => {
-  console.log("[ML] Image elaboration request recieved.")
+  console.log("[ML] Elaborating images.")
 //  await videoSplitter('./videos/video.mp4');
   const directoryPath = path.join(__dirname, "images");
   const filenames = readdirSync(directoryPath);
@@ -48,7 +48,9 @@ app.post("/process", async (req, res) => {
               db.execute("INSERT INTO cars (plate, region, type, acc) VALUES (?, ?, ?, ?)", [result.plate, result.region.code, result.vehicle.type, result.dscore], (err) => {
                 if (err) {
                   res.status(500).json({ message: 'Internal Server Error.'})
+                  return
                 }
+                res.status(200).json({ message: "Done."})
               })
             })           
            });
@@ -56,8 +58,6 @@ app.post("/process", async (req, res) => {
         .catch((error) => {
           console.log(error);
         });
-  console.log("[ML] Started elaborating images with success...")
-  res.status(200).json({ message: "Elaborating images..."})
 })
 
 app.post("/d", (req, res) => {
@@ -83,6 +83,10 @@ app.get("/", async (req, res) => {
 // import upload route
 import uploadRoute from "./uploadRoute.js";
 app.use(uploadRoute);
+
+// import image route
+import imageRoute from "./imageRoute.js";
+app.use("/i", imageRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`[SERVER] running on port ${process.env.PORT}`);

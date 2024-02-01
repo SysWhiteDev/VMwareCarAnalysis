@@ -5,7 +5,6 @@
 # EVgagement
 
 [![stable](https://github.com/SysWhiteDev/VMwareCarAnalysis/actions/workflows/StableTestingWorkflow.yml/badge.svg?branch=main)](https://github.com/SysWhiteDev/VMwareCarAnalysis/actions/workflows/StableTestingWorkflow.yml)
-[![development](https://github.com/SysWhiteDev/VMwareCarAnalysis/actions/workflows/DevelopmentTestingWorkflow.yml/badge.svg?branch=development)](https://github.com/SysWhiteDev/VMwareCarAnalysis/actions/workflows/DevelopmentTestingWorkflow.yml)
 
 ⭐ Star us on GitHub — it motivates us a lot!
 

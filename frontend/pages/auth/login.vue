@@ -22,6 +22,7 @@ export default {
             password: "",
             errorMessage: "",
             token: useTokenState(),
+            authCookie: useCookie("auth"),
         }
     },
     methods: {
@@ -32,6 +33,7 @@ export default {
                     password: this.password,
                 });
                 this.token.setToken(res.data.token);
+                this.authCookie = res.data.token;
                 this.$router.push("/");
             } catch (err) {
                 this.errorMessage = err.response.data.message;

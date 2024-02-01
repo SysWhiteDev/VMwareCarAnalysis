@@ -18,7 +18,7 @@
         </div>
         <div class="notfound" v-else>
             <i class="fa-regular fa-circle-question"></i>
-            <p>No data available, did you refresh the model in <NuxtLink to="/settings">settings</NuxtLink>?</p>
+            <p>No data available, maybe try waiting a little bit?</p>
         </div>
     </div>
 </template> 
@@ -54,7 +54,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .title {
     font-size: 30px;
     font-weight: bold;

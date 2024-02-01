@@ -8,8 +8,8 @@
                     <div class="info">
                         <i class="fa-solid fa-plug icon"></i>
                         <div>
-                            <p class="name">Charger {{ index }}</p>
-                            <!-- <p class="location">{{ charger.location }}</p> -->
+                            <p class="name">Charger {{ charger.id }}</p>
+                            <p class="location">Online</p>
                         </div>
                     </div>
                     <div class="status">
@@ -27,7 +27,7 @@
                 </NuxtLink>
             </div>
         </div>
-        <p class="title">ML Model</p>
+        <p class="section-title">Database</p>
         <div class="chargers-wrapper">
             <!-- <button @click="updateModel()" class="update-button" :class="{ success: updateButtonSuccess }"><i
                     class="fa-solid fa-arrows-rotate" v-if="!updateButtonSuccess"></i>

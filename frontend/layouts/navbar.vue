@@ -5,9 +5,11 @@
                 <NuxtLink to="/">
                     <i class="fa-solid fa-house"></i>
                 </NuxtLink>
+                <NuxtLink to="/feed">
+                    <i class="fa-solid fa-video"></i>
+                </NuxtLink>
             </div>
             <div>
-
                 <NuxtLink to="/settings">
                     <i class="fa-solid fa-gear"></i>
                 </NuxtLink>
@@ -48,7 +50,7 @@ a {
     align-items: center;
     height: 50px;
     width: 50px;
-    border-radius: 15px;
+    border-radius: 7px;
     background-color: #fff;
     font-size: 1.15rem;
     color: black;
@@ -57,5 +59,9 @@ a {
 
 a:hover {
     background-color: #f3f3f3;
+}
+
+a:not(:last-child) {
+    margin-bottom: 15px;
 }
 </style>

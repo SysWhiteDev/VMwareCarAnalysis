@@ -52,7 +52,6 @@ export default {
         async getData() {
             const res = await axios.get(`http://${window.location.hostname}:8081/`);
             const dataMap = new Map();
-            console.log(res.data)
             for (const element of res.data) {
                 if (!this.labels.includes(element.acc)) {
                     this.labels.push(element.acc);
@@ -65,7 +64,6 @@ export default {
             res.data.forEach(element => {
                 sum += element.acc;
             });
-            console.log(sum)
         }
     }
 }

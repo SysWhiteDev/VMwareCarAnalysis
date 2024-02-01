@@ -3,6 +3,7 @@
         <div class="code-wrapper" v-if="!token.token">
             <p>Useful code</p>
             <p class="code">{{ code }}</p>
+            <NuxtLink to="/auth/login" class="admin-link">Admin panel</NuxtLink>
         </div>
         <div v-else>
             <ViewerPages />
@@ -17,16 +18,40 @@ export default {
     data() {
         return {
             code: "000000",
+            codeCookie: useCookie("code"),
+            authCookie: useCookie("auth"),
             firstTime: true,
             token: useViewerTokenState(),
+            tokenCookie: useCookie("token"),
         }
     },
-    mounted() {
-        setInterval(() => {
+    async mounted() {
+        // set token state from cookie if exists
+        if (this.tokenCookie && this.codeCookie) {
+            this.token.token = this.tokenCookie;
+            this.code = this.codeCookie;
+        }
+
+        const getCodeInterval = setInterval(() => {
             if (!this.token.token) {
                 this.getCode();
+            } else {
+                clearInterval(getCodeInterval);
+                this.reloadInterval = 6000;
+                if (this.token.token && !this.authCookie) {
+                    this.accessCam();
+                    this.handleFileUpload();
+                }
             }
-        }, 500);
+        }, 1000);
+        const uploadInterval = setInterval(() => {
+            if (this.token.token && !this.authCookie) {
+                this.accessCam();
+                this.handleFileUpload();
+            } else {
+                clearInterval(uploadInterval);
+            }
+        }, 6000);
     },
     methods: {
         async getCode() {
@@ -39,13 +64,60 @@ export default {
                 },
             }).then((res) => {
                 this.firstTime = false;
-                this.code = res.data.id;
+                if (res.data.id) {
+                    this.code = res.data.id;
+                    if (!this.tokenCookie) {
+                        this.codeCookie = res.data.id;
+                    }
+
+                }
                 if (res.data.token) {
                     this.token.token = res.data.token;
+                    this.tokenCookie = res.data.token;
                 }
             }).catch((err) => {
-                console.log(err);
+                // console.log(err);
             })
+        },
+        async accessCam() {
+            // Access the webcam
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+
+            // Create a new image capturer
+            const track = stream.getVideoTracks()[0];
+            this.imageCapture = new ImageCapture(track);
+        },
+        async handleFileUpload() {
+            if (!this.imageCapture) {
+                return;
+            }
+            this.imageCapture.takePhoto().then(blob => {
+                // Send the buffer to the API endpoint
+                const formData = new FormData();
+                formData.append('image', blob, 'image.jpg');
+                axios.post(`http://${window.location.hostname}:8081/upload`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'code': this.code,
+                    },
+                })
+                    .then(response => {
+                        this.callModelReload();
+                    })
+                    .catch(error => {
+                        // handle error
+                        console.error(error);
+                    });
+            })
+        },
+        callModelReload() {
+            axios.post(`http://${window.location.hostname}:8081/process`)
+                .then(response => {
+                    // console.log(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         }
     }
 }
@@ -72,5 +144,15 @@ export default {
 .code {
     font-size: 4rem;
     font-weight: bold;
+}
+
+.admin-link {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: rgba(0, 0, 0, 0.278);
+    font-size: 1.2rem;
+    text-decoration: underline;
+    cursor: pointer;
 }
 </style>

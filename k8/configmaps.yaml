@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-db-config
+data:
+  MYSQL_ROOT_PASSWORD: vmware
+  MYSQL_DATABASE: backend-db
+  MYSQL_USER: vmware
+  MYSQL_PASSWORD: vmware
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+data:
+  PORT: "8080"  
+  JWT_SECRET: HelloFromSysWhite
+  DB_HOST: backend-db
+  DB_PORT: "3306"  
+  DB_USER: vmware
+  DB_NAME: backend-db
+  DB_PASS: vmware
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ml-db-config
+data:
+  MYSQL_ROOT_PASSWORD: vmware
+  MYSQL_DATABASE: ml-db
+  MYSQL_USER: vmware
+  MYSQL_PASSWORD: vmware
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ml-config
+data:
+  PORT: "8081" 
+  DB_HOST: ml-db
+  DB_PORT: "3306"  
+  DB_USER: vmware
+  DB_NAME: ml-db
+  DB_PASS: vmware
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+data:
+  PORT: "3000"  

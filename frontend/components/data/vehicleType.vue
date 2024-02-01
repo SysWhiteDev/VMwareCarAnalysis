@@ -36,7 +36,6 @@ export default {
             }
             
             this.data = Array.from(dataMap.values());
-            console.log(Array.from(dataMap.values()));
         }
 
     }
