@@ -23,6 +23,10 @@ export default {
         setInterval(() => {
             this.time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }, 1000);
+        this.handleFileUpload()
+        setInterval(()=> {
+            this.handleFileUpload()
+        }, 6000)
     },
 };
 </script>
