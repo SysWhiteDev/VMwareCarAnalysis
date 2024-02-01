@@ -17,4 +17,4 @@ RUN npm install
 EXPOSE 8081:8081
 
 # Define the command to run your application
-CMD ["node", "index.js"]
+CMD ["node", "index.ts"]
