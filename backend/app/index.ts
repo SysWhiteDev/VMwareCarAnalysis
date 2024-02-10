@@ -1,10 +1,12 @@
 // src/index.js
 import 'dotenv/config';
 import express from 'express';
+import cors from "cors";
 import {log} from './utils/utils';
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send(`EVver2 running`);
