@@ -27,7 +27,7 @@ const AuthPage = (): React.JSX.Element => {
     const handleLogin = async () => {
         // request to login
         setLoading(true);
-        let request = await fetch("http://localhost:3000/auth/login", {
+        await fetch("http://localhost:3000/auth/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -49,7 +49,7 @@ const AuthPage = (): React.JSX.Element => {
 
     const handleRegister = async () => {
         setLoading(true);
-        let request = await fetch("http://localhost:3000/auth/register", {
+        await fetch("http://localhost:3000/auth/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -168,4 +168,5 @@ const AuthPage = (): React.JSX.Element => {
         </div>
     </div>;
 }
+
 export default AuthPage;
