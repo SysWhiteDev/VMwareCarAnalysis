@@ -1,11 +1,11 @@
 "use client";
 import React, {useEffect, useState} from "react";
-import jsCookie from "js-cookie";
-import {useRouter} from "next/navigation";
+import useAuth from "@/hooks/useAuth";
 import {Button} from "planimetria";
 
 const ActivityPage = (): React.JSX.Element => {
-    const router = useRouter();
+    const {logout, token} = useAuth();
+
     const [activitiesArray, setActivitiesArray] = useState<object[]>([])
     const [refreshing, setRefreshing] = useState<boolean>(false)
     const getActivityLog = async () => {
@@ -13,19 +13,21 @@ const ActivityPage = (): React.JSX.Element => {
         const response = await fetch("http://localhost:3000/logs/activity", {
             method: "GET",
             headers: {
-                "Authorization": `${jsCookie.get("token")}`
+                "Authorization": `${token()}`
             }
         })
         setTimeout(() => {
             setRefreshing(false)
         }, 300)
         if (response.ok) {
-            const res = await response.json()
-            setActivitiesArray(res.data.reverse())
+            const res = await response.json();
+            const sortedActivitiesArray: any[] = res.data.sort((a: any, b: any) => {
+                return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+            });
+            setActivitiesArray(sortedActivitiesArray);
         } else {
             if (response.status === 401) {
-                jsCookie.remove("token");
-                router.push("/auth?action=login");
+                logout("Session expired, please login again");
             }
         }
     }
@@ -69,7 +71,7 @@ const ActivityPage = (): React.JSX.Element => {
                     <div className={"p-12 text-center"}>
                         <p className={"text-lg font-semibold"}>No activities found.</p>
                         <p className={"text-sm font-medium dark:font-light opacity-70"}>No activities have been recorded
-                            yet, please contact an admin.</p>
+                            yet.</p>
                     </div>
                 ) : (
                     <table className={"w-full p-4 text-sm"}>
@@ -78,20 +80,23 @@ const ActivityPage = (): React.JSX.Element => {
                             <th className={"w-[30%] px-4 py-3"}>
                                 Date
                             </th>
-                            <th className={"w-[60%] px-4 py-3"}>Event</th>
-                            <th className={"w-[10%] px-4 py-3 text-right"}>Danger Level</th>
+                            <th className={"w-[50%] px-4 py-3"}>Event</th>
+                            <th className={"w-[20%] px-4 py-3 text-right"}>Danger Level</th>
                         </tr>
                         </thead>
                         <tbody className={"bg-neutral-100 dark:bg-neutral-950"}>
                         {activitiesArray.map((activity: any, index: number) =>
-                            <tr key={index}
-                                className={"transition-colors text-left border-t-[0.5px] border-neutral-300 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-neutral-900"}>
-                                <td className={"px-4 py-3"}>
-                                    {new Date(activity.timestamp).toLocaleString()}
-                                </td>
-                                <td className={"px-4 py-3"}>{activity.type}</td>
-                                <td className={"px-4 py-3 text-right"}>{renderActivitySeverity(activity.severity)}</td>
-                            </tr>
+                            <>
+                                <tr key={index}
+                                    className={"transition-colors text-left border-t-[0.5px] border-neutral-300 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-neutral-900"}>
+                                    <td className={"px-4 py-3"}>
+                                        {new Date(activity.timestamp).toLocaleString()}
+                                    </td>
+                                    <td className={"px-4 py-3"}>{activity.type}</td>
+                                    <td className={"px-4 py-3 text-right"}>{renderActivitySeverity(activity.severity)}</td>
+                                </tr>
+
+                            </>
                         )}
                         </tbody>
                     </table>

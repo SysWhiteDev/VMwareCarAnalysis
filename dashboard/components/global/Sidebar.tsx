@@ -19,7 +19,7 @@ const Sidebar = ({children}: SidebarProps): React.JSX.Element => {
                 <div className={"w-full flex flex-col items-center gap-1"}>
                     <div
                         className={"font-medium h-[60px] w-full text-center text-cyan-600 dark:text-cyan-500 text-md border-b-[1px] dark:border-neutral-800 dark:border-opacity-100 border-opacity-15 border-black"}>
-                        <Image src={"/assets/banner.png"} alt={"evgagement banner"} className={"invert dark:filter-none"} width={250} height={60}/>
+                        <Image priority src={"/assets/banner.png"} alt={"evgagement banner"} className={"invert w-auto h-auto dark:filter-none"} width={250} height={60.5}/>
                     </div>
                     <Link
                         className={`${path === "/" && "!text-black dark:!text-white !bg-neutral-200 dark:!bg-neutral-900"} relative transition-all w-full py-1.5 px-4 flex justify-start items-center text-neutral-600 dark:text-neutral-500 hover:dark:bg-neutral-900 hover:bg-neutral-200 hover:shadow`}

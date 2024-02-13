@@ -1,11 +1,13 @@
 import express from "express";
+import authMiddleware from "../../middleware/checkAuth";
 const authRoutes = express.Router();
 
 import register from "./register";
 authRoutes.use("/register", register);
 import login from "./login";
 authRoutes.use("/login", login);
+import logout from "./logout";
+authRoutes.use("/logout",authMiddleware, logout);
 import status from "./status";
-import authMiddleware from "../../middleware/checkAuth";
 authRoutes.use("/status",authMiddleware, status);
 export default authRoutes;
