@@ -14,7 +14,7 @@ const AuthPage = (): React.JSX.Element => {
     let actionType = useSearchParams().get("action");
 
     const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string>("");
+    const [error, setError] = useState<any>("");
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
@@ -44,6 +44,11 @@ const AuthPage = (): React.JSX.Element => {
                 jsCookie.set("token", response.token);
                 router.push("/");
             }
+        }).catch(e => {
+            if (e) {
+                setError({error: "An error occurred, please try again later"});
+                setLoading(false);
+            }
         })
     }
 
@@ -62,7 +67,12 @@ const AuthPage = (): React.JSX.Element => {
                 return;
             }
             switchAction();
-        });
+        }).catch(e => {
+            if (e) {
+                setError({error: "An error occurred, please try again later"});
+                setLoading(false);
+            }
+        })
     }
     const switchAction = () => {
         setSwitchtingAnimation(true);

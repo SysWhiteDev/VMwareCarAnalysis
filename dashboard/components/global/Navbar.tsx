@@ -16,7 +16,7 @@ const Navbar = (): React.JSX.Element => {
 
     return (
         <div
-            className={"flex fixed top-0 z-50 h-[60px] justify-between items-center w-full px-6 pr-3 dark:bg-neutral-950 dark:text-white text-black dark:border-neutral-800 bg-neutral-100 dark:border-opacity-100 border-opacity-15 border-b-[1px] border-black"}>
+            className={"flex fixed top-0 right-0 left-[250px] z-50 h-[60px] justify-between items-center px-6 pr-3 dark:bg-neutral-950 dark:text-white text-black dark:border-neutral-800 bg-neutral-100 dark:border-opacity-100 border-opacity-15 border-b-[1px] border-black"}>
             <div className={"flex items-center gap-1 text-sm"}>
                 <p className={"dark:opacity-70"}>SysWhite</p>
                 {pathArray.map((item, index) => {
@@ -35,7 +35,7 @@ const Navbar = (): React.JSX.Element => {
                     }
                 })}
             </div>
-            <p className={"text-sm flex items-center justify-center bg-neutral-200 dark:bg-neutral-600 rounded-full border-[1px] border-opacity-15 dark:border-opacity-65 border-neutral-500 gap-1 cursor-pointer text-black dark:text-white h-[37px] w-[37px]"}>SW</p>
+            <p className={"text-sm ml-auto z-50 flex items-center justify-center bg-neutral-200 dark:bg-neutral-600 rounded-full border-[1px] border-opacity-15 dark:border-opacity-65 border-neutral-500 gap-1 cursor-pointer text-black dark:text-white h-[37px] w-[37px]"}>SW</p>
         </div>
     )
 }
