@@ -15,7 +15,7 @@ export default function RootLayout({
     return (
         <html lang="en" className={theme}>
         <body className={`${inter.className} dark:text-white text-black dark:bg-neutral-950 bg-neutral-100`}>
-        <Sidebar>{children}</Sidebar>
+            <Sidebar>{children}</Sidebar>
         </body>
         </html>
     );

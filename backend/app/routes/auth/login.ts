@@ -3,6 +3,8 @@ const login = express.Router();
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import sql from "../../services/sql";
+import {registerActivity} from "../../utils/utils";
+
 login.post("/", async (req, res) => {
     const { username, password } = req.body;
     // check if username and password are provided
@@ -35,6 +37,7 @@ login.post("/", async (req, res) => {
             console.log(err);
             return res.status(500).json({ error: "Internal server error" });
         });
+        await registerActivity(user[0].id, "User logged in", 1)
         // return token
         return res.status(200).json({ token });
     });

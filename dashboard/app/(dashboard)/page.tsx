@@ -17,8 +17,8 @@ export default function Home() {
                             <PiHeartbeat className={"opacity-70"} size={22}/>
                         </div>
                         <div>
-                            <p className={"font-extrabold text-3xl"}>932</p>
-                            <p className={"opacity-70 text-sm"}>0 offline</p>
+                            <p className={"font-extrabold text-3xl"}>3</p>
+                            <p className={"opacity-70 text-sm"}>5 offline</p>
                         </div>
                     </div>
                     <div
@@ -28,8 +28,8 @@ export default function Home() {
                             <PiChargingStation className={"opacity-70"} size={22}/>
                         </div>
                         <div>
-                            <p className={"font-extrabold text-3xl"}>280</p>
-                            <p className={"opacity-70 text-sm"}>652 sleeping</p>
+                            <p className={"font-extrabold text-3xl"}>2</p>
+                            <p className={"opacity-70 text-sm"}>1 sleeping</p>
                         </div>
                     </div>
                     <div

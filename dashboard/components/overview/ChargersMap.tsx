@@ -23,19 +23,19 @@ const ChargersMap = (): React.JSX.Element => {
                             ))
                         }
                     </Geographies>
-                    {Array(280).fill("").map(() => (
+                    {Array(2).fill("").map(() => (
                         <Marker key={Math.random()} coordinates={[Math.random() *  900, Math.random() *  1800]}>
                             {/*<circle className={"animate-ping duration-1000"} r={2} fill="#00b038"/>*/}
                             <circle r={2} className={"fill-yellow-700 dark:fill-yellow-400"}/>
                         </Marker>
                     ))}
-                    {Array(652).fill("").map(() => (
+                    {Array(1).fill("").map(() => (
                         <Marker key={Math.random()} coordinates={[Math.random() *  900, Math.random() *  1800]}>
                             {/*<circle className={"animate-ping duration-1000"} r={2} fill="#00b038"/>*/}
                             <circle r={2} className={"fill-cyan-700 dark:fill-cyan-500"}/>
                         </Marker>
                     ))}
-                    {Array(10).fill("").map(() => (
+                    {Array(5).fill("").map(() => (
                         <Marker key={Math.random()} coordinates={[Math.random() *  900, Math.random() *  1800]}>
                             <circle className={"animate-ping duration-1000"} r={2} fill="#b00000"/>
                             <circle r={2} fill="#b00000"/>

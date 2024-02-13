@@ -1,4 +1,4 @@
-import {create, StateCreator} from "zustand";
+import {create} from "zustand";
 
 type ThemeStore = {
     theme: string;
@@ -6,6 +6,6 @@ type ThemeStore = {
 };
 
 export const useThemeStore = create<ThemeStore>((set) => ({
-    theme: "dark",
+    theme: "light",
     setTheme: (theme: string) => set({theme}),
 }));
