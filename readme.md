@@ -23,8 +23,12 @@ To accomplish this we make use of computer vision to analyze photos uploaded by 
 ## Directory structure
 
 <details>
-<summary>~/frontend</summary>
-All the needed files to run the frontend.
+<summary>~/client</summary>
+All the needed files to run the client.
+</details>
+
+<summary>~/dashboard</summary>
+All the needed files to run the admin dashboard.
 </details>
 
 <details>
