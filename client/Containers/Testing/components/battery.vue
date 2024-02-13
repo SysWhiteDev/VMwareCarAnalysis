@@ -1,10 +1,10 @@
 <template>
-        <div class="bar">
+        <div class="bar"  v-if="isClient">
             <p class="charge">{{ currentNumber }}%</p>
-            <div class="fill" :style="{ width: currentNumber -25 + '%' }"></div>  
+            <div class="fill" :style="{ width: currentNumber + '%' }"></div>  
         </div>
 
-        <div class="stats" v-if="isClient">
+        <div class="stats" style="transform: translate(-50%, -55%);">
             <p>11kW</p>
             <span class="spacer"></span>
             <p>50/50A</p>
@@ -29,6 +29,7 @@ export default {
                 clearInterval(this.intervalId);
             } else {
                 this.currentNumber++;
+                console.log(this.currentNumber);
             }
         }, 5000); // Increase by 1 every 5 seconds
     },
@@ -48,28 +49,24 @@ export default {
 }
 
 .bar {
-    width: 75%;
+    width: 70%;
     height: 10%;
     top: 30%;
     left: 15%;
     position: fixed;
     border-radius: 4px;
     background-color: rgb(28, 28, 28);
-    display: flex;
-    justify-content: space-between;
+    text-align: center;
     align-items: center;
+    
 }
 
 .fill {
     background-color: rgb(30, 224, 30);
     border-radius: 4px;
-    height: 10%;
-    position: fixed;
+    height: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    top: inherit;
-    left: inherit;
+    transition: width  0.5s ease;
 }
 .stats {
     position: fixed;
@@ -89,10 +86,11 @@ export default {
 .spacer {
     width: 2px;
     height: 25px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 15px;
+    margin-right: 15px;
     background-color: rgb(0, 228, 30);
     z-index: 110;
+    border-radius: 0.5px;
 }
 .charge {
     color: rgb(226, 226, 226);
