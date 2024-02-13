@@ -1,58 +1,46 @@
 <template>
-  <div class="sidebar" ref="sidebar">
-    <div class="logo">
-      <NuxtLink to="/" class="link">
-        <img width="25" height="25" src="https://img.icons8.com/1fff4f/ios-filled/50/car.png" alt="car"/>
-        <p>e-car corp.</p>
-      </NuxtLink>
+    <div class="fullscreen">
+      <div class="company-logo">
+        <img width="100" height="100" src="https://img.icons8.com/isometric/100/car.png" alt="car"/>
+      </div>
+      <div class="evgagement">
+        <p>Powered by Evgagement</p>
+      </div>
     </div>
-    <div class="container">
-      <NuxtLink to="/1" class="link">Nav item 1</NuxtLink>
-      <NuxtLink to="/2" class="link">nav item 2</NuxtLink>
-    </div>
-  </div>
-</template> 
+</template>
 
-<script>
-export default {
-  name: 'Sidebar',
-  mounted() {
-    const sidebarWidth = this.$refs.sidebar.offsetWidth;
-    document.documentElement.style.setProperty('--sidebar-width', `${sidebarWidth}px`);
-    console.log(sidebarWidth);
-  },
-}
-</script>
-
-<style scoped>
-
-.sidebar {
+<style>
+.fullscreen {
+  z-index: -2147483647;
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 0;
-  background-color: #000000;
-  color: #1fff4f;
-  font-family: 'Courier New', Courier, monospace;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  /* black magic for mesh gradient */
+  background-color:hsla(167,41%,58%,1);
+  background-image: 
+  radial-gradient(at 15% 70%, hsla(189,70%,39%,1) 0px, transparent 50%),
+  radial-gradient(at 98% 95%, hsla(120,59%,48%,1) 0px, transparent 50%),
+  radial-gradient(at 66% 35%, hsla(170,82%,64%,1) 0px, transparent 50%),
+  radial-gradient(at 22% 6%, hsla(153,100%,50%,1) 0px, transparent 50%),
+  radial-gradient(at 40% 17%, hsla(218,62%,70%,1) 0px, transparent 50%);
 }
-.link {
-  text-decoration: none;
-  color:#1fff4f 
+.company-logo {
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.container {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-.logo {
-  display: flex;
-  flex-direction: row;
-  align-items: space-between;
-  padding: 20px;
-  justify-content: space-between;
-  border-bottom: 1px solid #1fff4f;
+.evgagement {
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  top: 98%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: Rubik;
 }
 </style>
-
