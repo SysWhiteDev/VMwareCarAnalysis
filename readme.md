@@ -27,6 +27,7 @@ To accomplish this we make use of computer vision to analyze photos uploaded by 
 All the needed files to run the client.
 </details>
 
+<details>
 <summary>~/dashboard</summary>
 All the needed files to run the admin dashboard.
 </details>
