@@ -6,7 +6,7 @@
       <div class="fill" :style="{ width: currentNumber + '%' }"></div>
     </div>
     <stats/>
-    <message/>
+    <message :currentNumber="currentNumber"/>
   </div>
 </template>
 
@@ -26,7 +26,6 @@ export default {
         clearInterval(this.intervalId);
       } else {
         this.currentNumber++;
-        console.log(this.currentNumber);
       }
     }, 5000); // Increase by 1 every 5 seconds
   },
