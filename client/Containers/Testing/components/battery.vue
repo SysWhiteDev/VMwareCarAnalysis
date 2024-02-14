@@ -1,16 +1,12 @@
 <template>
   <div class="wrapper">
+    <timeCharging/>
     <div class="bar" v-if="isClient">
       <p class="charge">{{ currentNumber }}%</p>
       <div class="fill" :style="{ width: currentNumber + '%' }"></div>
     </div>
-    <div class="stats">
-      <p>11kW</p>
-      <span class="spacer"></span>
-      <p>50/50A</p>
-      <span class="spacer"></span>
-      <p>220V</p>
-    </div>
+    <stats/>
+    <message/>
   </div>
 </template>
 
@@ -76,30 +72,11 @@ export default {
   z-index: 0;
 }
 
-.stats {
-  color: rgb(226, 226, 226);
-  font-size: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-}
-
-.spacer {
-  width: 2px;
-  height: 25px;
-  margin-left: 15px;
-  margin-right: 15px;
-  background-color: rgb(0, 228, 30);
-  z-index: 110;
-  border-radius: 0.5px;
-}
-
 .charge {
-  color: rgb(226, 226, 226);
   font-size: 20px;
   position: relative;
   z-index: 11;
 }
+
 </style>
   

@@ -1,13 +1,15 @@
 <template>
-  <div class="blur">
-    <div class="bg"></div>
-  </div>
-  <div class="company-logo">
+  <div class="wrapper">
+    <div class="blur">
+      <div class="bg"></div>
+    </div>
+    <div class="company-logo">
       <img width="75" height="75" src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fclipart-library.com%2Fnew_gallery%2F229-2297531_1-porsche-porsche-logo-white.png&f=1&nofb=1&ipt=5564deed6b058c84b22dc61c4290e7503bab4e0d51ead0e0ed67edb54bc7b7ce&ipo=images" alt="car"/>
     </div>
     <div class="evgagement">
       <p>Powered by Evgagement</p>
     </div>
+  </div>
 </template>
 
 <style scoped>
@@ -37,7 +39,7 @@
     left:  0;
     width:  100%;
     height:  100%;
-    background-color: rgba(12, 12, 12, 0.555);
+    background-color: rgba(12, 12, 12, 0.5);
     backdrop-filter: blur(100px);
     z-index: -2147483647;
 }
@@ -45,7 +47,7 @@
   position: fixed;
   align-items: center;
   justify-content: center;
-  top: 15%;
+  top: 18%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -56,7 +58,7 @@
   top: 98%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: rgb(226, 226, 226);
   white-space: nowrap;
+  font-size: 8px;
 }
 </style>
