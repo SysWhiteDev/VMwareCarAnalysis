@@ -10,8 +10,8 @@ export default {
 
   data() {
     return {
-      messages: ["Unplug to finish charging", "Your vehicle has finished charging, you can unplug it now", "Plug your vehicle in to start charging"],
-      message: 2
+      messages: ["Unplug to finish charging.", "Your vehicle has finished charging, you can unplug it now.", "Plug your vehicle in to start charging."],
+      message: 0
     };
   },
   // note: it updates 5 secs after the page is loaded so there might be a delay
@@ -39,6 +39,6 @@ export default {
 
 .message {
   font-size:12px;
-}
-
+  white-space: nowrap;
+  }
 </style>
