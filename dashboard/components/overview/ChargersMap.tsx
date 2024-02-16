@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import {PiMapPin} from "react-icons/pi";
-import {Spinner} from "planimetria";
+import {ComposableMap, Geographies, Geography, ZoomableGroup} from "react-simple-maps";
 
 const ChargersMap = (): React.JSX.Element => {
     return <div
@@ -12,7 +12,17 @@ const ChargersMap = (): React.JSX.Element => {
         </div>
         <div
             className={"flex flex-1 items-center justify-center rounded-md dark:bg-neutral-900 bg-neutral-200 overflow-hidden text-sm"}>
-            <Spinner className={"dark:fill-white fill-black"} size={42}/>
+            <ComposableMap className={"h-full w-full"}>
+                <ZoomableGroup>
+                    <Geographies geography={"https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json"}>
+                        {({geographies}) =>
+                            geographies.map((geo) => (
+                                <Geography key={geo?.rsmKey} geography={geo} className={"outline-none stroke-[1px] fill-neutral-950 stroke-neutral-800 dark:fill-neutral-100 dark:stroke-neutral-300"}/>
+                            ))
+                        }
+                    </Geographies>
+                </ZoomableGroup>
+            </ComposableMap>
         </div>
     </div>
 }

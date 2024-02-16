@@ -5,7 +5,7 @@ import {registerActivity} from "../../utils/utils";
 import jwt from "jsonwebtoken";
 
 logout.post("/", async (req, res) => {
-    const decodedToken = jwt.decode(req.headers.authorization as string) as jwt.JwtPayload;
+    const decodedToken = jwt.verify(req.headers.authorization as string, process.env.JWT_SECRET as string) as jwt.JwtPayload;
     if (!decodedToken.id) {
         return res.status(500).json({ error: "Internal Server Error" });
     }

@@ -2,7 +2,7 @@ import express from "express";
 const register = express.Router();
 import sql from "../../services/sql";
 import bcrypt from "bcrypt";
-
+import { v4 as uuidv4 } from 'uuid';
 register.post("/", async (req, res) => {
     const { username, password } = req.body;
     // check if username and password are provided
@@ -24,7 +24,7 @@ register.post("/", async (req, res) => {
             return res.status(500).json({ error: "Internal server error" });
         }
         // insert user into database
-        sql`INSERT INTO public.users (username, password) VALUES (${username}, ${hash})`
+        sql`INSERT INTO public.users (id, username, password) VALUES (${uuidv4()}, ${username}, ${hash})`
             .then(() => {
                 return res.status(200).json({ success: "User created" });
             })

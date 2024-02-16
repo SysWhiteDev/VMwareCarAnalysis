@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 const activity = express.Router();
 
 activity.get("/", async (req, res) => {
-    const decodedToken = jwt.decode(req.headers.authorization as any) as jwt.JwtPayload;
+    const decodedToken = jwt.verify(req.headers.authorization as any, process.env.JWT_SECRET as string) as jwt.JwtPayload;
     if (!decodedToken?.id) {
         return res.status(500).json({ error: "Internal Server Error" });
     }

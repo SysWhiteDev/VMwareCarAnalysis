@@ -1,13 +1,14 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import useAuth from "@/hooks/useAuth";
-import {Button} from "planimetria";
+import {Button, Spinner} from "planimetria";
 
 const ActivityPage = (): React.JSX.Element => {
     const {logout, token} = useAuth();
 
     const [activitiesArray, setActivitiesArray] = useState<object[]>([])
     const [refreshing, setRefreshing] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(true)
     const getActivityLog = async () => {
         setRefreshing(true)
         const response = await fetch("http://localhost:3000/logs/activity", {
@@ -25,6 +26,7 @@ const ActivityPage = (): React.JSX.Element => {
                 return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
             });
             setActivitiesArray(sortedActivitiesArray);
+            setLoading(false)
         } else {
             if (response.status === 401) {
                 logout("Session expired, please login again");
@@ -34,9 +36,6 @@ const ActivityPage = (): React.JSX.Element => {
 
     useEffect(() => {
         getActivityLog().then(r => r)
-        setInterval(() => {
-            getActivityLog().then(r => r)
-        }, 10000)
     }, []);
 
     const renderActivitySeverity = (activity: number) => {
@@ -55,7 +54,7 @@ const ActivityPage = (): React.JSX.Element => {
         }
     };
 
-    return <div>
+    return <div className={"p-2"}>
         <div className={"flex justify-between items-end mx-4 my-4"}>
             <div className={""}>
                 <p className={"text-3xl font-semibold"}>Activity Log</p>
@@ -66,7 +65,10 @@ const ActivityPage = (): React.JSX.Element => {
             <Button onClick={() => getActivityLog()} loading={refreshing}>Refresh</Button>
         </div>
         <div className={"rounded-md overflow-hidden border border-neutral-300 dark:border-neutral-800 m-4"}>
-            {
+            {loading ? <div className={"p-12 text-center flex justify-center items-center dark:text-neutral-300 text-neutral-700"}>
+                <Spinner size={24}/>
+                <p className={"ml-3"}>I'm checking the activity registry...</p>
+            </div> : (
                 activitiesArray.length === 0 ? (
                     <div className={"p-12 text-center"}>
                         <p className={"text-lg font-semibold"}>No activities found.</p>
@@ -86,24 +88,19 @@ const ActivityPage = (): React.JSX.Element => {
                         </thead>
                         <tbody className={"bg-neutral-100 dark:bg-neutral-950"}>
                         {activitiesArray.map((activity: any, index: number) =>
-                            <>
-                                <tr key={index}
-                                    className={"transition-colors text-left border-t-[0.5px] border-neutral-300 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-neutral-900"}>
-                                    <td className={"px-4 py-3"}>
-                                        {new Date(activity.timestamp).toLocaleString()}
-                                    </td>
-                                    <td className={"px-4 py-3"}>{activity.type}</td>
-                                    <td className={"px-4 py-3 text-right"}>{renderActivitySeverity(activity.severity)}</td>
-                                </tr>
-
-                            </>
+                            <tr key={index}
+                                className={"transition-colors text-left border-t-[0.5px] border-neutral-300 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-neutral-900"}>
+                                <td className={"px-4 py-3"}>
+                                    {new Date(activity.timestamp).toLocaleString()}
+                                </td>
+                                <td className={"px-4 py-3"}>{activity.type}</td>
+                                <td className={"px-4 py-3 text-right"}>{renderActivitySeverity(activity.severity)}</td>
+                            </tr>
                         )}
                         </tbody>
                     </table>
                 )
-
-            }
-
+            )}
         </div>
     </div>
 }

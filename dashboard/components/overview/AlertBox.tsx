@@ -54,7 +54,6 @@ const AlertBox = (): React.JSX.Element => {
                             </thead>
                             <tbody className={"bg-neutral-200 dark:bg-neutral-900"}>
                             {alertsArray.map((activity: any, index: number) =>
-                                <>
                                     <tr key={index}
                                         className={`${index === alertsArray.length - 1 && "border-b-[0.5px]"} h-[25px] transition-colors text-left border-t-[0.5px] border-neutral-300 dark:border-neutral-800 hover:bg-neutral-300 hover:dark:bg-neutral-950`}>
                                         <td className={"px-4 py-3"}>
@@ -63,11 +62,9 @@ const AlertBox = (): React.JSX.Element => {
                                         <td className={"px-4 py-3"}>{activity.type}</td>
                                         <td className={"px-4 py-3 text-right"}>
                                                 <span
-                                                    className="text-xs dark:bg-yellow-400 bg-yellow-300 dark:text-black text-yellow-800 px-1.5 py-0.5 rounded-md">Active</span>
+                                                    className="text-xs dark:bg-yellow-400 bg-yellow-300 dark:text-black text-yellow-800 px-1.5 py-0.5 rounded-md">In Effect</span>
                                         </td>
                                     </tr>
-
-                                </>
                             )}
                             </tbody>
                         </table>

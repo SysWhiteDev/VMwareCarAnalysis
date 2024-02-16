@@ -1,13 +1,7 @@
 import ws from "ws";
+import {log} from "../utils/utils";
 
-let wsServer = new ws.Server({ noServer: true }, () => {
-    console.log("wsServer is running");
-});
-
-wsServer.on("connection", (socket) => {
-    console.log(socket)
-    socket.on("message", (message) => {
-        console.log(message);
-    });
+let wsServer = new ws.Server({ port: 8080 }, () => {
+    log("WebSocket server is running at http://localhost:8080/", "info");
 });
 export default wsServer;

@@ -33,7 +33,7 @@ const Sidebar = ({children}: SidebarProps): React.JSX.Element => {
                 </div>
                 <div className={"w-full flex flex-col items-center gap-1"}>
                     <Link
-                        className={`${path === "/stations" && "!text-black dark:!text-white !bg-neutral-200 dark:!bg-neutral-900"}cd transition-all w-full py-1.5 px-4 flex justify-start items-center text-neutral-600 dark:text-neutral-500 hover:dark:bg-neutral-900 hover:bg-neutral-200 hover:shadow`}
+                        className={`${path === "/stations" && "!text-black dark:!text-white !bg-neutral-200 dark:!bg-neutral-900"} transition-all w-full py-1.5 px-4 flex justify-start items-center text-neutral-600 dark:text-neutral-500 hover:dark:bg-neutral-900 hover:bg-neutral-200 hover:shadow`}
                         href={"/stations"}><LuPlug className={"mr-2.5"} size={20}/><p
                         className={"text-md"}>Stations</p>
                     </Link>
@@ -46,7 +46,7 @@ const Sidebar = ({children}: SidebarProps): React.JSX.Element => {
             </div>
             <div className={"ml-[250px] flex flex-col w-full"}>
                 <Navbar />
-                <div className={"p-2 z-0 relative mt-[60px]"}>{children}</div>
+                <div className={"z-0 relative mt-[60px]"}>{children}</div>
             </div>
         </div>
     )

@@ -10,4 +10,6 @@ import logout from "./logout";
 authRoutes.use("/logout",authMiddleware, logout);
 import status from "./status";
 authRoutes.use("/status",authMiddleware, status);
+import user from "./user";
+authRoutes.use("/user",authMiddleware, user);
 export default authRoutes;

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EVgagement</title>
+</head>
+<body>
+<div style="position:relative; background: none; height: 100dvh; width: 100dvw; display: flex; justify-content: center; align-items: center;">
+    <div style="background: #171717; padding: 32px; border-radius: 12px; border-color: rgb(38 38 38); border-width: 1px; border-style: solid; width: 500px">
+        <p style="font-size: 2.25rem; font-weight: bold">Your setup code</p>
+        <p style="font-size: 1rem; opacity: 0.70;">Use this code to setup your charging station.</p>
+        <div id="codeWrapDiv" style="display: flex; justify-content: space-between;">
+        </div>
+    </div>
+</div>
+<div class="bg-wrap"
+     style="z-index: -10; filter: blur(250px); position: fixed; top: 0; right: 0; left: 0; bottom: 0; height: 100dvh;">
+    <div style="height: 500px; width: 400px; background: #57b458;"></div>
+    <div style="position: absolute; bottom: 0; right: 0; height: 500px; width: 400px; background: #15a1ba;"></div>
+</div>
+</body>
+<script src="
+https://cdn.jsdelivr.net/npm/ws@8.16.0/browser.min.js
+"></script>
+<script>
+    const connectToEVNetwork = () => {
+
+
+        const ws = new WebSocket('ws://localhost:8080/');
+        ws.onopen = () => {
+            ws.send("getCode");
+        };
+
+        const renderLoading = (appendID, loadingMessage) => {
+            document.getElementById(appendID).innerHTML = "";
+            const parentDiv = document.createElement("div");
+            parentDiv.style.display = "flex";
+            parentDiv.style.alignItems = "center";
+            parentDiv.style.marginTop = "40px";
+            parentDiv.style.opacity = "0.8";
+            const spinnerDiv = document.createElement("div");
+            spinnerDiv.classList.add("lds-spinner");
+            spinnerDiv.style.transform = "scale(0.7) translateX(-20%)";
+            for (let i = 0; i < 12; i++) {
+                const div = document.createElement("div");
+                spinnerDiv.appendChild(div);
+            }
+            const pElement = document.createElement("p");
+            pElement.textContent = loadingMessage;
+            parentDiv.appendChild(spinnerDiv);
+            parentDiv.appendChild(pElement);
+            document.getElementById(appendID).appendChild(parentDiv);
+        }
+
+        renderLoading("codeWrapDiv", "I'm grabbing a code...");
+        ws.onmessage = (event) => {
+            if (event.data.split(":")[0] === "code") {
+                let code = event.data.split(":")[1];
+                let codeWrapDiv = document.getElementById("codeWrapDiv");
+                codeWrapDiv.innerHTML = "";
+                for (let i = 0; i < 6; i++) {
+                    codeWrapDiv.innerHTML += `<div style='border-radius: 0.75rem; height: 80px; width: 15%; padding: 10px; background: rgba(255, 255, 255, 0.05); color: rgba(255,255,255,0.75); margin-top: 40px; font-size: 48px; text-align: center; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;'> ${code.split("")[i]}</div>`;
+                }
+            }
+            if (event.data.split(":")[0] === "apikey") {
+                renderLoading("codeWrapDiv", "I'm waiting for a ok to operate...");
+            }
+        };
+        ws.onclose = () => {
+            renderLoading("codeWrapDiv", "I'm grabbing a code...");
+            setTimeout(() => {
+                connectToEVNetwork();
+            }, 1000)
+        };
+        ws.onerror = () => {
+            renderLoading("codeWrapDiv", "I'm grabbing a code...");
+            setTimeout(() => {
+                connectToEVNetwork();
+            }, 1000)
+        };
+    }
+    connectToEVNetwork();
+</script>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+    body, * {
+        margin: 0;
+        padding: 0;
+        color: white;
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+        font-variation-settings: "slnt" 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: rgba(12, 12, 12, 1);
+    }
+
+    .lds-spinner {
+        color: official;
+        display: inline-block;
+        position: relative;
+        width: 40px;
+        height: 40px;
+    }
+
+    .lds-spinner div {
+        transform-origin: 20px 20px;
+        animation: lds-spinner 1.2s linear infinite;
+    }
+
+    .lds-spinner div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 1.5px;
+        left: 18.5px;
+        width: 3px;
+        height: 9px;
+        border-radius: 10%;
+        background: #fff;
+    }
+
+    .lds-spinner div:nth-child(1) {
+        transform: rotate(0deg);
+        animation-delay: -1.1s;
+    }
+
+    .lds-spinner div:nth-child(2) {
+        transform: rotate(30deg);
+        animation-delay: -1s;
+    }
+
+    .lds-spinner div:nth-child(3) {
+        transform: rotate(60deg);
+        animation-delay: -0.9s;
+    }
+
+    .lds-spinner div:nth-child(4) {
+        transform: rotate(90deg);
+        animation-delay: -0.8s;
+    }
+
+    .lds-spinner div:nth-child(5) {
+        transform: rotate(120deg);
+        animation-delay: -0.7s;
+    }
+
+    .lds-spinner div:nth-child(6) {
+        transform: rotate(150deg);
+        animation-delay: -0.6s;
+    }
+
+    .lds-spinner div:nth-child(7) {
+        transform: rotate(180deg);
+        animation-delay: -0.5s;
+    }
+
+    .lds-spinner div:nth-child(8) {
+        transform: rotate(210deg);
+        animation-delay: -0.4s;
+    }
+
+    .lds-spinner div:nth-child(9) {
+        transform: rotate(240deg);
+        animation-delay: -0.3s;
+    }
+
+    .lds-spinner div:nth-child(10) {
+        transform: rotate(270deg);
+        animation-delay: -0.2s;
+    }
+
+    .lds-spinner div:nth-child(11) {
+        transform: rotate(300deg);
+        animation-delay: -0.1s;
+    }
+
+    .lds-spinner div:nth-child(12) {
+        transform: rotate(330deg);
+        animation-delay: 0s;
+    }
+
+    @keyframes lds-spinner {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+</style>
+</html>

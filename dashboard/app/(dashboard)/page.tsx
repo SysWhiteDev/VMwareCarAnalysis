@@ -4,7 +4,7 @@ import ChargersMap from "@/components/overview/ChargersMap";
 
 export default function Home() {
     return (
-        <div>
+        <div className={"p-2"}>
             <div>
                 <p className={"text-3xl font-semibold mt-4 ml-4"}>Overview</p>
                 <p className={"text-sm font-medium dark:font-light ml-4 opacity-70"}>General info about your EV charging

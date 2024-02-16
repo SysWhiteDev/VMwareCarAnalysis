@@ -23,8 +23,11 @@ function createWindow(){
             nodeIntegration: true
         }
     });
+    win.menuBarVisible = false;
+    win.fullScreen = true;
 
-    win.loadURL('http://localhost:6980');
+    // win.loadURL('http://localhost:6980');
+    win.loadFile("./pages/bind/index.html");
 }
 
 app.whenReady().then(createWindow);
