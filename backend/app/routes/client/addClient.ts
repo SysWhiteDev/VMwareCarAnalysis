@@ -12,14 +12,17 @@ addClient.post("/", async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
         return;
     }
-    await sql`INSERT INTO stations (id, owner_id) values (${uuidv4()}, ${decodedToken.id})`
-    wsServer.clients.forEach((client) => {
+    for (const client of wsServer.clients) {
         // @ts-ignore
         if (client.id === connectId) {
-            client.send("apikey:YAPYAP");
+            const id = uuidv4();
+            await sql`INSERT INTO stations (id, owner_id, added_timestamp) values (${id}, ${decodedToken.id}, ${new Date().toISOString()})`;
+            const token = jwt.sign({ id: id, owner_id: decodedToken.id }, process.env.JWT_SECRET as string);
+            await sql`INSERT INTO stations_tokens (owner_id, station_id, token, status) values (${decodedToken.id},${id}, ${token}, 1)`;
+            client.send(`apikey:${token}`);
+            return res.status(200).json({ message: "Client added", client_id: id });
         }
-    });
-    res.status(200).json({ message: "Client added" });
-
+    }
+    return res.status(404).json({ message: "Client not found"});
 });
 export default addClient;

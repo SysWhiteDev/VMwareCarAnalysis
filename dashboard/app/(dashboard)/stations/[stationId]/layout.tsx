@@ -5,7 +5,7 @@ import {Button, Spinner} from "planimetria";
 import Link from "next/link";
 
 const stationIdPage = ({params, children}: { children: any, params: { stationId: string } }): React.JSX.Element => {
-    const [loading, setLoading] = useState<boolean>(true)
+    const [loading, setLoading] = useState<boolean>(false)
 
     return (
         <>

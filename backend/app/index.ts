@@ -30,6 +30,7 @@ app.use("/stations", authMiddleware, stationsRoutes);
 
 import clientRoutes from "./routes/client";
 import WebSocket from "ws";
+import sql from "./services/sql";
 
 app.use("/client", clientRoutes);
 app.listen(process.env.PORT, () => {
@@ -44,15 +45,27 @@ app.listen(process.env.PORT, () => {
 let clientIDS: string[] = []; // transform this into redis store
 wsServer.on("connection", (socket: WebSocket) => {
     // generate a random numeric only id and check if it already exists
-    let id:string = (Math.floor(Math.random() *  900000) +  100000).toString();
+    let id: string = (Math.floor(Math.random() * 900000) + 100000).toString();
     while (clientIDS.includes(id)) {
-        id = (Math.floor(Math.random() *  900000) +  100000).toString();
+        id = (Math.floor(Math.random() * 900000) + 100000).toString();
     }
     socket.on("message", (message) => {
         if (message.toString() === "getCode") {
             // @ts-ignore
             socket.id = id;
             socket.send(`code:${id}`);
+        }
+        if (message.toString().split(":")[0] === "auth") {
+            sql`SELECT * FROM stations_tokens WHERE token = ${message.toString().split(":")[1]}`.then((res) => {
+                if (res.length === 0) {
+                    socket.send("auth:failed");
+                } else {
+                    // @ts-ignore
+                    socket.id = res[0].station_id;
+                    clientIDS.push(res[0].station_id);
+                    socket.send("auth:success");
+                }
+            })
         }
     });
 });

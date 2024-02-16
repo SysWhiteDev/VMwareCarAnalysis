@@ -24,11 +24,15 @@ https://cdn.jsdelivr.net/npm/ws@8.16.0/browser.min.js
 "></script>
 <script>
     const connectToEVNetwork = () => {
-
-
         const ws = new WebSocket('ws://localhost:8080/');
         ws.onopen = () => {
-            ws.send("getCode");
+            if (!window.localStorage.getItem("token")) {
+                renderLoading("codeWrapDiv", "I'm grabbing a code...");
+                ws.send("getCode");
+            } else {
+                ws.send("auth:" + window.localStorage.getItem("token"));
+                renderLoading("codeWrapDiv", "I'm waiting for a ok to operate...");
+            }
         };
 
         const renderLoading = (appendID, loadingMessage) => {
@@ -52,7 +56,6 @@ https://cdn.jsdelivr.net/npm/ws@8.16.0/browser.min.js
             document.getElementById(appendID).appendChild(parentDiv);
         }
 
-        renderLoading("codeWrapDiv", "I'm grabbing a code...");
         ws.onmessage = (event) => {
             if (event.data.split(":")[0] === "code") {
                 let code = event.data.split(":")[1];
@@ -64,8 +67,16 @@ https://cdn.jsdelivr.net/npm/ws@8.16.0/browser.min.js
             }
             if (event.data.split(":")[0] === "apikey") {
                 renderLoading("codeWrapDiv", "I'm waiting for a ok to operate...");
+                window.localStorage.setItem("token", event.data.split(":")[1]);
+                ws.send("auth:" + window.localStorage.getItem("token"));
+            }
+            if (event.data === "auth:failed") {
+                window.localStorage.removeItem("token");
+                renderLoading("codeWrapDiv", "I'm grabbing a code...");
+                ws.send("getCode");
             }
         };
+
         ws.onclose = () => {
             renderLoading("codeWrapDiv", "I'm grabbing a code...");
             setTimeout(() => {

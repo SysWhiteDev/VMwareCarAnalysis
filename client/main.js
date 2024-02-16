@@ -1,6 +1,8 @@
 const { app } = require('electron');
 const { exec } = require('child_process');
 const { BrowserWindow } = require('electron');
+const Store = require('electron-store');
+const store = new Store();
 
 // Start the Docker container
 exec('docker run -d -p 6980:3000 testing', (error, stdout, stderr) => {
@@ -28,6 +30,7 @@ function createWindow(){
 
     // win.loadURL('http://localhost:6980');
     win.loadFile("./pages/bind/index.html");
+    win.send('store', store);
 }
 
 app.whenReady().then(createWindow);
