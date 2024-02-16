@@ -17,22 +17,16 @@ app.get('/', (req, res) => {
 
 // AUTH ROUTES
 import authRoutes from "./routes/auth";
-
 app.use("/auth", authRoutes);
-
 import logRoutes from "./routes/logs";
-
 app.use("/logs", authMiddleware, logRoutes);
-
 import stationsRoutes from "./routes/stations";
-
 app.use("/stations", authMiddleware, stationsRoutes);
-
 import clientRoutes from "./routes/client";
+app.use("/client", clientRoutes);
+
 import WebSocket from "ws";
 import sql from "./services/sql";
-
-app.use("/client", clientRoutes);
 app.listen(process.env.PORT, () => {
     log(`REST API server is running at http://localhost:${process.env.PORT || 8069}`, "info");
     if (process.env.NODE_ENV === "production") {

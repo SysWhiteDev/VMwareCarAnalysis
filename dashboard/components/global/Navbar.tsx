@@ -46,7 +46,7 @@ const Navbar = (): React.JSX.Element => {
 
     return (
         <div
-            className={"flex fixed top-0 right-0 left-[250px] z-50 h-[60px] justify-between items-center px-6 pr-3 dark:bg-neutral-950 dark:text-white text-black dark:border-neutral-800 bg-neutral-100 dark:border-opacity-100 border-opacity-15 border-b-[1px] border-black"}>
+            className={"flex fixed top-0 right-0 left-[250px] z-50 h-[60px] justify-between items-center px-6 dark:bg-neutral-950 dark:text-white text-black dark:border-neutral-800 bg-neutral-100 dark:border-opacity-100 border-opacity-15 border-b-[1px] border-black"}>
             <div className={"flex items-center gap-1 text-sm"}>
                 <p className={"dark:opacity-70"}>{username}</p>
                 {pathArray.map((item, index) => {
