@@ -4,7 +4,7 @@
       <div class="bg"></div>
     </div>
     <div class="company-logo">
-      <img width="75" height="75" src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fclipart-library.com%2Fnew_gallery%2F229-2297531_1-porsche-porsche-logo-white.png&f=1&nofb=1&ipt=5564deed6b058c84b22dc61c4290e7503bab4e0d51ead0e0ed67edb54bc7b7ce&ipo=images" alt="car"/>
+      <p>ACME corp.</p>
     </div>
     <div class="evgagement">
       <p>Powered by Evgagement</p>
@@ -50,6 +50,9 @@
   top: 18%;
   left: 50%;
   transform: translate(-50%, -50%);
+  white-space: nowrap;
+  font-weight: bold;
+  font-size: 30px;
 }
 .evgagement {
   position: fixed;

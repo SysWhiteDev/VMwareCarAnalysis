@@ -10,7 +10,7 @@ export default {
 
   data() {
     return {
-      messages: ["Unplug to finish charging.", "Your vehicle has finished charging, you can unplug it now.", "Plug your vehicle in to start charging."],
+      messages: ["Unplug to stop charging.", "Your vehicle has finished charging, you can unplug it now.", "Plug your vehicle in to start charging."],
       message: 0
     };
   },
