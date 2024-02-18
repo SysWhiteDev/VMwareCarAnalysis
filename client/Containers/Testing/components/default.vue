@@ -51,7 +51,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   white-space: nowrap;
-  font-weight: bold;
+  font-weight: lighter;
   font-size: 30px;
 }
 .evgagement {

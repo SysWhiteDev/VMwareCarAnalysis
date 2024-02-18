@@ -49,7 +49,7 @@ export default {
 
 .bar {
   width: 70dvw;
-  height: 10dvh;
+  height: clamp(70px, 10dvh, 80px);
   position: relative;
   border-radius: 4px;
   background-color: rgb(28, 28, 28);

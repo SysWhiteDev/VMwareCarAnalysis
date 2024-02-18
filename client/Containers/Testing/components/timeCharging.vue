@@ -18,7 +18,7 @@ export default {
 
 <style scoped>
 .stats {
-    height: 10vh;
+    margin-bottom: 15px;
     display: flex;
     flex-direction: row;
 }
