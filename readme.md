@@ -12,9 +12,9 @@ This project aims to make EV charging more fun and engaging for the end users.
 To accomplish this we make use of computer vision to analyze photos uploaded by the charging station, enabling personalized recommendations and reducing friction for the users while their car is charging.
 <br>
 
-<img src="https://www.vdr.one/wp-content/uploads/2015/10/vmware-banner.png">
+### Note that we are currently revamping the entire codebase, the new code can be found in the [v2 branch](https://github.com/SysWhiteDev/VMwareCarAnalysis/tree/v2)
 
-## Table of content
+## Table of contents
 
 - [Directory structure](#directory-structure)
 - [Running the app](#how-to-run-the-application)
